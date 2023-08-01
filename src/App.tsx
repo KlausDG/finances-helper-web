@@ -5,7 +5,7 @@ import { auth } from "./services/firebase";
 import { BrowserRouter, Link, Route, Routes } from "react-router-dom";
 import { Header, Loading, Menu, PrivateRoute } from "./components";
 import { WalletsPage } from "./pages/Wallets";
-import { ChakraProvider } from "@chakra-ui/react";
+import { Toaster } from "react-hot-toast";
 
 const Home = () => {
   return <div>Autenticado</div>;
@@ -14,6 +14,8 @@ const Home = () => {
 const App = () => {
   const [user, setUser] = useState<User | null>(null);
   const [authCheckComplete, setAuthCheckComplete] = useState(false);
+
+  console.log(user);
 
   useEffect(() => {
     const subscriber = onAuthStateChanged(auth, (user) => {
@@ -29,7 +31,7 @@ const App = () => {
   }
 
   return (
-    <ChakraProvider>
+    <>
       <div className="bg-neutral-100 h-screen">
         <BrowserRouter>
           <Header
@@ -63,7 +65,8 @@ const App = () => {
           </div>
         </BrowserRouter>
       </div>
-    </ChakraProvider>
+      <Toaster position="top-right" reverseOrder />
+    </>
   );
 };
 
