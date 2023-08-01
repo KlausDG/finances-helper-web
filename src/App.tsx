@@ -5,6 +5,7 @@ import { auth } from "./services/firebase";
 import { BrowserRouter, Link, Route, Routes } from "react-router-dom";
 import { Header, Loading, Menu, PrivateRoute } from "./components";
 import { WalletsPage } from "./pages/Wallets";
+import { ChakraProvider } from "@chakra-ui/react";
 
 const Home = () => {
   return <div>Autenticado</div>;
@@ -28,7 +29,7 @@ const App = () => {
   }
 
   return (
-    <>
+    <ChakraProvider>
       <div className="bg-neutral-100 h-screen">
         <BrowserRouter>
           <Header
@@ -62,7 +63,7 @@ const App = () => {
           </div>
         </BrowserRouter>
       </div>
-    </>
+    </ChakraProvider>
   );
 };
 
