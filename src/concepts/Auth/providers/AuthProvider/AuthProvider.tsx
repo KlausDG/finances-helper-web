@@ -1,18 +1,16 @@
 import { createContext, useState } from "react";
 import { WithChildren } from "@/types";
-import {
-  GoogleAuthProvider,
-  User as FirebaseUserType,
-  signInWithPopup,
-} from "firebase/auth";
+import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { auth, db } from "@/services/firebase";
-import { collection, doc, serverTimestamp, setDoc } from "firebase/firestore";
-import { User } from "@/concepts/User";
-import { AuthContextType } from "./AuthProvider.types";
+import { AuthContextType, AuthenticatedUserType } from "./AuthProvider.types";
+import { createAccount } from "@/concepts/Account";
+import { collection } from "firebase/firestore";
 
 export const AuthContext = createContext<AuthContextType>(undefined);
 
 export const AuthProvider = ({ children }: WithChildren) => {
+  const [authenticatedUser, setAuthenticatedUser] =
+    useState<AuthenticatedUserType>(null);
   const [authCheckComplete, setAuthCheckComplete] = useState(false);
 
   const handleGoogleSignIn = () => {
@@ -20,44 +18,29 @@ export const AuthProvider = ({ children }: WithChildren) => {
 
     signInWithPopup(auth, provider)
       .then(async (result) => {
-        createNewUserDocument(result.user);
+        const accountInfoCollectionRef = collection(db, "account-info");
+        createAccount(result.user, accountInfoCollectionRef);
       })
       .catch((error) => {
         console.log(error);
       });
   };
 
-  const createNewUserDocument = async (authenticatedUser: FirebaseUserType) => {
-    try {
-      const userCollectionRef = collection(db, "users");
-
-      const user = new User({
-        name: authenticatedUser.displayName,
-        id: authenticatedUser.uid,
-        totalAccountPercentage: {
-          value: 0,
-          lastUpdated: serverTimestamp(),
-        },
-      });
-
-      const userDocumentName = authenticatedUser.displayName?.replace(
-        /\s/g,
-        ""
-      );
-
-      const userRef = doc(userCollectionRef, userDocumentName);
-
-      await setDoc(userRef, user);
-    } catch (error) {
-      console.log(error);
-    }
+  const handleAuthenticatedUser = (user: AuthenticatedUserType) => {
+    setAuthenticatedUser(user);
   };
 
   const completeAuthCheck = () => {
     setAuthCheckComplete(true);
   };
 
-  const value = { handleGoogleSignIn, authCheckComplete, completeAuthCheck };
+  const value = {
+    authenticatedUser,
+    handleAuthenticatedUser,
+    handleGoogleSignIn,
+    authCheckComplete,
+    completeAuthCheck,
+  };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
