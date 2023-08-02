@@ -5,8 +5,13 @@ import { CreateWalletFormProps } from "./CreateWalletForm.types";
 import { useLoading } from "@/providers";
 
 export const CreateWalletForm = ({ closeModal }: CreateWalletFormProps) => {
-  const { handleInputChange, wallet, handleCreateWallet } =
-    useCreateWalletForm();
+  const {
+    currentAccountPercentage,
+    handleCreateWallet,
+    handleNameInputChange,
+    handlePercentageInputChange,
+    wallet,
+  } = useCreateWalletForm();
 
   const { loading } = useLoading();
 
@@ -18,7 +23,7 @@ export const CreateWalletForm = ({ closeModal }: CreateWalletFormProps) => {
           variant="flushed"
           size="sm"
           value={wallet.name}
-          onChange={(event) => handleInputChange("name", event.target.value)}
+          onChange={(event) => handleNameInputChange(event.target.value)}
         />
       </div>
       <div>
@@ -28,15 +33,13 @@ export const CreateWalletForm = ({ closeModal }: CreateWalletFormProps) => {
          * - Set the available percentage text based on the account percentage
          * - Add char limit based on the available account percentage.
          */}
-        <Title text="Porcentagem (40/100%)" />
+        <Title text={`Porcentagem (${currentAccountPercentage}/100%)`} />
         <Input
           variant="flushed"
           size="sm"
           value={wallet.percentage}
           type="number"
-          onChange={(event) =>
-            handleInputChange("percentage", event.target.value)
-          }
+          onChange={(event) => handlePercentageInputChange(event.target.value)}
         />
       </div>
       <div className="mt-4 m-auto">

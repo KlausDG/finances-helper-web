@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { createWallet } from "../../repository";
 import toast from "react-hot-toast";
 import { useAccount } from "@/concepts/Account";
@@ -18,11 +18,31 @@ export const useCreateWalletForm = () => {
 
   const { accountInfo, handleAccountPercentageUpdate } = useAccount();
 
-  const handleInputChange = (key: keyof WalletType, value: string) => {
+  const remainingAccountPercentage = useMemo(() => {
+    const currentPercentage = Number(accountInfo.totalPercentage.value);
+
+    return 100 - currentPercentage;
+  }, [accountInfo]);
+
+  const handleNameInputChange = (value: string) => {
     setWallet((prev) => {
       return {
         ...prev,
-        [key]: value,
+        name: value,
+      };
+    });
+  };
+
+  const handlePercentageInputChange = (value: string) => {
+    const validatedValue =
+      Number(value) > remainingAccountPercentage
+        ? remainingAccountPercentage
+        : value;
+
+    setWallet((prev) => {
+      return {
+        ...prev,
+        percentage: validatedValue.toString(),
       };
     });
   };
@@ -43,8 +63,11 @@ export const useCreateWalletForm = () => {
   };
 
   return {
-    handleInputChange,
+    handleNameInputChange,
+    handlePercentageInputChange,
     wallet,
     handleCreateWallet,
+    remainingAccountPercentage,
+    currentAccountPercentage: accountInfo.totalPercentage.value,
   };
 };
