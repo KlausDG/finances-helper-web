@@ -1,20 +1,19 @@
 import { collection, doc, setDoc } from "firebase/firestore";
-import { Wallet } from "../../entities";
 import { WalletProps } from "../../types";
 import { db } from "@/services/firebase";
+import { v4 as uuidv4 } from "uuid";
 
-export const createWallet = async ({
-  name,
-  percentage,
-  userId,
-}: WalletProps) => {
-  const wallet = new Wallet({ name, percentage, userId });
+export const createWallet = async (walletData: WalletProps) => {
+  const wallet = {
+    id: uuidv4(),
+    ...walletData,
+  };
 
   const collectionRef = collection(db, "wallets");
 
   try {
     const documentRef = doc(collectionRef, wallet.id);
-    await setDoc(documentRef, { ...wallet });
+    await setDoc(documentRef, wallet);
   } catch (error) {
     console.error(error);
   }

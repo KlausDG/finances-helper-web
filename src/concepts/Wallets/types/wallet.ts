@@ -1,3 +1,13 @@
-import { Wallet } from "./../entities";
+export type Wallet = WalletProps & {
+  id: string;
+};
 
-export type WalletProps = Omit<Wallet, "id">;
+export type WalletProps = {
+  name: string;
+  percentage: string;
+  userId: string;
+};
+
+export type WalletsState = {
+  availableWallets: Array<Wallet>;
+};

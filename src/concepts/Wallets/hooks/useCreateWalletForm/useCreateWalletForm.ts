@@ -1,8 +1,9 @@
 import { useMemo, useState } from "react";
 import { createWallet } from "../../repository";
 import toast from "react-hot-toast";
-import { useAccount } from "@/concepts/Account";
+import { accountSelector, useAccount } from "@/concepts/Account";
 import { useLoading } from "@/providers";
+import { useSelector } from "react-redux";
 
 type WalletType = {
   name: string;
@@ -14,15 +15,18 @@ export const useCreateWalletForm = () => {
     name: "",
     percentage: "",
   });
+
+  const account = useSelector(accountSelector);
+
   const { startLoading, stopLoading } = useLoading();
 
-  const { accountInfo, handleAccountPercentageUpdate } = useAccount();
+  const { handleAccountPercentageUpdate } = useAccount();
 
   const remainingAccountPercentage = useMemo(() => {
-    const currentPercentage = Number(accountInfo.totalPercentage.value);
+    const currentPercentage = Number(account.totalPercentage.value);
 
     return 100 - currentPercentage;
-  }, [accountInfo]);
+  }, [account]);
 
   const handleNameInputChange = (value: string) => {
     setWallet((prev) => {
@@ -51,7 +55,7 @@ export const useCreateWalletForm = () => {
     startLoading();
 
     try {
-      await createWallet({ ...wallet, userId: accountInfo.userId });
+      await createWallet({ ...wallet, userId: account.userId });
       await handleAccountPercentageUpdate(Number(wallet.percentage));
       toast.success("Carteira criada com sucesso!");
     } catch (error) {
@@ -68,6 +72,6 @@ export const useCreateWalletForm = () => {
     wallet,
     handleCreateWallet,
     remainingAccountPercentage,
-    currentAccountPercentage: accountInfo.totalPercentage.value,
+    currentAccountPercentage: account.totalPercentage.value,
   };
 };

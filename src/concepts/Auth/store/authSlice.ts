@@ -11,7 +11,6 @@ const authSlice = createSlice({
   initialState: initialState,
   reducers: {
     setAuthenticatedUser: (state, { payload }: AuthenticatedUserPayload) => {
-      console.log(payload);
       if (!payload) {
         state.user = null;
       } else {
