@@ -6,7 +6,6 @@ import App from "./App.tsx";
 import "./tailwind.css";
 import { ChakraProvider } from "@chakra-ui/react";
 import { LoadingProvider } from "@/providers";
-import { AuthProvider } from "@/concepts/Auth";
 import { AccountProvider } from "@/concepts/Account";
 import { store } from "./store.ts";
 
@@ -15,11 +14,9 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
     <Provider store={store}>
       <ChakraProvider>
         <LoadingProvider>
-          <AuthProvider>
-            <AccountProvider>
-              <App />
-            </AccountProvider>
-          </AuthProvider>
+          <AccountProvider>
+            <App />
+          </AccountProvider>
         </LoadingProvider>
       </ChakraProvider>
     </Provider>
