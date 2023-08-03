@@ -5,10 +5,7 @@ export const ActionCardButton = ({
   onClick,
 }: HtmlHTMLAttributes<HTMLButtonElement>) => {
   return (
-    <button
-      className="min-h-[210px] border-dashed border-2 w-full"
-      onClick={onClick}
-    >
+    <button className="min-h-[210px] border-dashed border-2" onClick={onClick}>
       {children}
     </button>
   );

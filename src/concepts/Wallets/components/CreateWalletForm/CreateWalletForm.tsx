@@ -27,12 +27,6 @@ export const CreateWalletForm = ({ closeModal }: CreateWalletFormProps) => {
         />
       </div>
       <div>
-        {/**
-         * TODO:
-         * - Move the available percentage text to the end of the line.
-         * - Set the available percentage text based on the account percentage
-         * - Add char limit based on the available account percentage.
-         */}
         <Title text={`Porcentagem (${currentAccountPercentage}/100%)`} />
         <Input
           variant="flushed"

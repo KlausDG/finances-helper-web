@@ -6,31 +6,40 @@ import { BrowserRouter, Link, Route, Routes } from "react-router-dom";
 import { Header, Loading, Menu, PrivateRoute } from "./components";
 import { WalletsPage } from "./pages/Wallets";
 import { Toaster } from "react-hot-toast";
-import { useAuth } from "@/concepts/Auth";
+import {
+  authSelector,
+  completeAuthCheck,
+  setAuthenticatedUser,
+} from "@/concepts/Auth";
+import { useDispatch, useSelector } from "react-redux";
+import { createAccount } from "./concepts/Account";
 
 const Home = () => {
   return <div>Autenticado</div>;
 };
 
 const App = () => {
-  const {
-    authenticatedUser,
-    handleAuthenticatedUser,
-    authCheckComplete,
-    completeAuthCheck,
-  } = useAuth();
+  const { authCheckCompleted, user } = useSelector(authSelector);
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const subscriber = onAuthStateChanged(auth, (user) => {
-      handleAuthenticatedUser(user);
-      completeAuthCheck();
+      dispatch(setAuthenticatedUser(user));
+      dispatch(completeAuthCheck());
     });
 
     return subscriber;
     // eslint-disable-next-line
   }, []);
 
-  if (!authCheckComplete) {
+  useEffect(() => {
+    if (user && authCheckCompleted) {
+      createAccount(user);
+    }
+  }, [authCheckCompleted, user]);
+
+  if (!authCheckCompleted) {
     return <Loading />;
   }
 
@@ -52,17 +61,14 @@ const App = () => {
               <Route
                 path="/"
                 element={
-                  <PrivateRoute
-                    isAuthenticated={!!authenticatedUser}
-                    outlet={<Home />}
-                  />
+                  <PrivateRoute isAuthenticated={!!user} outlet={<Home />} />
                 }
               />
               <Route
                 path="/wallets"
                 element={
                   <PrivateRoute
-                    isAuthenticated={!!authenticatedUser}
+                    isAuthenticated={!!user}
                     outlet={<WalletsPage />}
                   />
                 }

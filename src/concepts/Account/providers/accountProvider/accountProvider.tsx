@@ -36,10 +36,12 @@ export const AccountProvider = ({ children }: WithChildren) => {
 
     startLoading();
     const unsub = onSnapshot(q, (querySnapshot) => {
-      setAccountInfo(
-        (querySnapshot.docs[0].data() as unknown as AccountInfoType) ||
-          ({} as AccountInfoType)
-      );
+      if (querySnapshot.docs[0]) {
+        setAccountInfo(
+          (querySnapshot.docs[0].data() as unknown as AccountInfoType) ||
+            ({} as AccountInfoType)
+        );
+      }
       stopLoading();
     });
     return () => {

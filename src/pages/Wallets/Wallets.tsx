@@ -1,5 +1,5 @@
 import { ActionCardButton, Modal, Title } from "@/components";
-import { CreateWalletForm } from "@/concepts/Wallets";
+import { CreateWalletForm, WalletCard } from "@/concepts/Wallets";
 import { useModal } from "@/hooks";
 import { Heading } from "@chakra-ui/react";
 
@@ -9,7 +9,10 @@ export const WalletsPage = () => {
   return (
     <div>
       <Title text="Carteiras" />
-      <ActionCardButton onClick={openModal}>Nova Carteira</ActionCardButton>
+      <div className="grid gap-4 grid-cols-2">
+        <WalletCard />
+        <ActionCardButton onClick={openModal}>Nova Carteira</ActionCardButton>
+      </div>
 
       <Modal isOpen={isOpen} closeModal={closeModal}>
         <Heading as="h4" size="md">

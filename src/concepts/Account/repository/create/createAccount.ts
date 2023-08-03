@@ -1,26 +1,24 @@
-import { User as FirebaseUserType } from "firebase/auth";
 import { Account } from "../../entities";
-import { doc, serverTimestamp, setDoc } from "firebase/firestore";
-import { CollectionRef } from "@/types";
+import { collection, doc, serverTimestamp, setDoc } from "firebase/firestore";
+import { db } from "@/services/firebase";
+import { AuthenticatedUser } from "@/concepts/Auth";
 
 export const createAccount = async (
-  authenticatedUser: FirebaseUserType,
-  collectionRef: CollectionRef
+  authenticatedUser: NonNullable<AuthenticatedUser>
 ) => {
   try {
+    const collectionRef = collection(db, "account-info");
+
     const account = new Account({
-      userName: authenticatedUser.displayName,
-      userId: authenticatedUser.uid,
+      userName: authenticatedUser.displayName!,
+      userId: authenticatedUser.uid!,
       totalPercentage: {
         value: 0,
         lastUpdated: serverTimestamp(),
       },
     });
 
-    const accountDocumentName = authenticatedUser.displayName?.replace(
-      /\s/g,
-      ""
-    );
+    const accountDocumentName = authenticatedUser!.email!;
 
     const documentRef = doc(collectionRef, accountDocumentName);
     await setDoc(documentRef, { ...account });
