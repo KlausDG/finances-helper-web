@@ -1,13 +1,13 @@
-import { HtmlHTMLAttributes } from "react";
-
 export const ActionCardButton = ({
   children,
   onClick,
-}: HtmlHTMLAttributes<HTMLButtonElement>) => {
+  disabled,
+}: React.ButtonHTMLAttributes<HTMLButtonElement>) => {
   return (
     <button
-      className="min-h-[210px] border-dashed border-2 w-full"
+      className="min-h-[210px] border-dashed border-2"
       onClick={onClick}
+      disabled={disabled}
     >
       {children}
     </button>
