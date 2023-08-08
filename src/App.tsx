@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import { SignIn } from "./pages/SignIn";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./services/firebase";
@@ -13,6 +13,7 @@ import {
 } from "@/concepts/Auth";
 import { useDispatch, useSelector } from "react-redux";
 import { createAccount } from "./concepts/Account";
+import { getAccount } from "./concepts/Account/repository/get";
 
 const Home = () => {
   return <div>Autenticado</div>;
@@ -23,10 +24,28 @@ const App = () => {
 
   const dispatch = useDispatch();
 
+  const fetchExistingAccount = useCallback(
+    async (docName: string) => {
+      try {
+        const account = await getAccount(docName);
+
+        if (!account) {
+          createAccount(user!);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    [user]
+  );
+
   useEffect(() => {
     const subscriber = onAuthStateChanged(auth, (user) => {
       dispatch(setAuthenticatedUser(user));
       dispatch(completeAuthCheck());
+      if (user && authCheckCompleted) {
+        fetchExistingAccount(user.email!);
+      }
     });
 
     return subscriber;
@@ -35,9 +54,9 @@ const App = () => {
 
   useEffect(() => {
     if (user && authCheckCompleted) {
-      createAccount(user);
+      fetchExistingAccount(user.email!);
     }
-  }, [authCheckCompleted, user]);
+  }, [authCheckCompleted, fetchExistingAccount, user]);
 
   if (!authCheckCompleted) {
     return <Loading />;

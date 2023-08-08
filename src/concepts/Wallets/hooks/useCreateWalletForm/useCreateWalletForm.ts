@@ -4,17 +4,19 @@ import toast from "react-hot-toast";
 import { accountSelector, useAccount } from "@/concepts/Account";
 import { useLoading } from "@/providers";
 import { useSelector } from "react-redux";
+import { Wallet } from "../../types";
+import { FieldValue } from "firebase/firestore";
 
-type WalletType = {
-  name: string;
-  percentage: string;
+const defaulWalletValues = {
+  id: "",
+  name: "",
+  percentage: "",
+  userId: "",
+  lastUpdated: {} as FieldValue,
 };
 
 export const useCreateWalletForm = () => {
-  const [wallet, setWallet] = useState<WalletType>({
-    name: "",
-    percentage: "",
-  });
+  const [wallet, setWallet] = useState<Wallet>(defaulWalletValues);
 
   const account = useSelector(accountSelector);
 
@@ -27,6 +29,10 @@ export const useCreateWalletForm = () => {
 
     return 100 - currentPercentage;
   }, [account]);
+
+  const resetWallet = () => {
+    setWallet(defaulWalletValues);
+  };
 
   const handleNameInputChange = (value: string) => {
     setWallet((prev) => {
@@ -51,26 +57,29 @@ export const useCreateWalletForm = () => {
     });
   };
 
-  const handleCreateWallet = async (closeModal: () => void) => {
+  const handleWallet = async (closeModal: () => void) => {
     startLoading();
 
     try {
       await createWallet({ ...wallet, userId: account.userId });
-      await handleAccountPercentageUpdate(Number(wallet.percentage));
+      handleAccountPercentageUpdate(wallet);
+
       toast.success("Carteira criada com sucesso!");
     } catch (error) {
       toast.error("Ops... something went wrong!");
     } finally {
+      setWallet(defaulWalletValues);
       stopLoading();
       closeModal();
     }
   };
 
   return {
+    resetWallet,
     handleNameInputChange,
     handlePercentageInputChange,
     wallet,
-    handleCreateWallet,
+    handleWallet,
     remainingAccountPercentage,
     currentAccountPercentage: account.totalPercentage.value,
   };
