@@ -18,8 +18,9 @@ export const AccountProvider = ({ children }: WithChildren) => {
 
   const { startLoading, stopLoading } = useLoading();
 
-  const extractObjectById = (idToFind: string, wallets: Array<Wallet>) => {
+  const extractObjectById = (wallets: Array<Wallet>, idToFind?: string) => {
     const index = wallets.findIndex((wallet) => wallet.id === idToFind);
+
     if (index !== -1) {
       wallets.splice(index, 1);
       return wallets;
@@ -27,16 +28,23 @@ export const AccountProvider = ({ children }: WithChildren) => {
     return wallets;
   };
 
-  const handleAccountPercentageUpdate = (modifiedWallet: Wallet) => {
+  const handleAccountPercentageUpdate = (
+    modifiedWallet: Wallet,
+    isDelete?: boolean
+  ) => {
     const walletsCopy = [...wallets];
+
     const filteredWalletsArray = extractObjectById(
-      modifiedWallet.id,
-      walletsCopy
+      walletsCopy,
+      modifiedWallet?.id
     );
-    const arrayToSum = [...filteredWalletsArray, modifiedWallet];
+
+    const arrayToSum = isDelete
+      ? filteredWalletsArray
+      : [...filteredWalletsArray, modifiedWallet];
 
     const totalPercentage = arrayToSum.reduce(
-      (acc, wallet) => (acc += Number(wallet.percentage)),
+      (acc, wallet) => (acc += Number(wallet?.percentage)),
       0
     );
 

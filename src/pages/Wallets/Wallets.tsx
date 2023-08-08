@@ -5,6 +5,7 @@ import {
   WalletCard,
   WalletsModal,
   useCreateWalletForm,
+  useDeleteWallet,
   useUpdateWalletForm,
 } from "@/concepts/Wallets";
 import { getWalletsSnapshot } from "@/concepts/Wallets/repository/snapshot";
@@ -48,6 +49,8 @@ export const WalletsPage = () => {
     handleUpdateWallet,
   } = useUpdateWalletForm();
 
+  const { handleDeleteWallet } = useDeleteWallet();
+
   const { startLoading, stopLoading, loading } = useLoading();
 
   const addWallet = () => {
@@ -77,6 +80,7 @@ export const WalletsPage = () => {
             key={index}
             wallet={wallet}
             onEditClick={() => editWallet(wallet, openEditModal)}
+            onRemoveClick={() => handleDeleteWallet(wallet)}
           />
         ))}
         <ActionCardButton

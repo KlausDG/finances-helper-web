@@ -6,5 +6,8 @@ export type AccountContextType = AccountContextReturn | undefined;
 export type AuthenticatedUserType = FirebaseUser | null;
 
 type AccountContextReturn = {
-  handleAccountPercentageUpdate: (modifiedWallet: Wallet) => void;
+  handleAccountPercentageUpdate: (
+    modifiedWallet: Wallet,
+    isDelete?: boolean
+  ) => void;
 };
