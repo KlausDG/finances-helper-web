@@ -5,6 +5,7 @@ import { auth } from "./services/firebase";
 import { BrowserRouter, Link, Route, Routes } from "react-router-dom";
 import { Header, Loading, Menu, PrivateRoute } from "./components";
 import { WalletsPage } from "./pages/Wallets";
+import { CategoriesPage } from "./pages/Categories";
 import { Toaster } from "react-hot-toast";
 import {
   authSelector,
@@ -72,6 +73,9 @@ const App = () => {
                 <Link to="/wallets" className="text-white">
                   Carteiras
                 </Link>
+                <Link to="/categories" className="text-white">
+                  Categorias
+                </Link>
               </Menu>
             }
           />
@@ -89,6 +93,15 @@ const App = () => {
                   <PrivateRoute
                     isAuthenticated={!!user}
                     outlet={<WalletsPage />}
+                  />
+                }
+              />
+              <Route
+                path="/categories"
+                element={
+                  <PrivateRoute
+                    isAuthenticated={!!user}
+                    outlet={<CategoriesPage />}
                   />
                 }
               />
