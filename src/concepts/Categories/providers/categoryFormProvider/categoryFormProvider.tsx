@@ -1,12 +1,19 @@
 import { walletsSelector } from "@/concepts/Wallets";
-import { useSelector } from "react-redux";
-import { createCategory } from "../../repository";
-import { useForm } from "react-hook-form";
-import * as yup from "yup";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { CategoryFormData } from "../../types";
-import { toast } from "react-hot-toast";
 import { useLoading } from "@/providers";
+import { WithChildren } from "@/types";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { createContext } from "react";
+import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
+import { useSelector } from "react-redux";
+import { createCategory } from "../..";
+import { CategoryFormData } from "../../types";
+import { useModal } from "@/hooks";
+import * as yup from "yup";
+import { CategoryFormContextType } from "./categoryFormProvider.types";
+
+export const CategoryFormContext =
+  createContext<CategoryFormContextType>(undefined);
 
 const schema = yup.object({
   name: yup.string().required(),
@@ -24,11 +31,7 @@ const initialState: CategoryFormData = {
   walletId: "",
 };
 
-type UseCategoryFormProps = {
-  closeModal: () => void;
-};
-
-export const useCategoryForm = ({ closeModal }: UseCategoryFormProps) => {
+export const CategoryFormProvider = ({ children }: WithChildren) => {
   const {
     register,
     handleSubmit,
@@ -42,7 +45,8 @@ export const useCategoryForm = ({ closeModal }: UseCategoryFormProps) => {
     defaultValues: initialState,
   });
 
-  const { startLoading, stopLoading } = useLoading();
+  const { loading, startLoading, stopLoading } = useLoading();
+  const { isOpen, openModal, closeModal } = useModal();
 
   const wallets = useSelector(walletsSelector);
 
@@ -65,15 +69,22 @@ export const useCategoryForm = ({ closeModal }: UseCategoryFormProps) => {
     closeModal();
   };
 
-  return {
-    errors,
-    watch,
+  const value = {
     register,
     setValue,
-    getValues,
-    handleCloseFormModal,
-    handleCreateCategory,
+    watch,
+    errors,
     wallets,
+    handleCloseFormModal,
     handleSubmit: handleSubmit(handleCreateCategory),
+    isOpen,
+    openModal,
+    isLoading: loading,
   };
+
+  return (
+    <CategoryFormContext.Provider value={value}>
+      {children}
+    </CategoryFormContext.Provider>
+  );
 };

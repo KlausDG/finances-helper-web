@@ -17,6 +17,7 @@ import { createAccount } from "./concepts/Account";
 import { getAccount } from "./concepts/Account/repository/get";
 import { useLoading } from "./providers";
 import { getWalletsSnapshot } from "./concepts/Wallets";
+import { CategoryFormProvider } from "./concepts/Categories/providers";
 
 const Home = () => {
   return <div>Autenticado</div>;
@@ -118,7 +119,11 @@ const App = () => {
                 element={
                   <PrivateRoute
                     isAuthenticated={!!user}
-                    outlet={<CategoriesPage />}
+                    outlet={
+                      <CategoryFormProvider>
+                        <CategoriesPage />
+                      </CategoryFormProvider>
+                    }
                   />
                 }
               />

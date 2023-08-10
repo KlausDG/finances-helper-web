@@ -1,5 +1,6 @@
 export * from "./ActionCardButton";
 export * from "./Circle";
+export * from "./CreateIcon";
 export * from "./Header";
 export * from "./Loading";
 export * from "./Menu";
