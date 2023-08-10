@@ -15,6 +15,8 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { createAccount } from "./concepts/Account";
 import { getAccount } from "./concepts/Account/repository/get";
+import { useLoading } from "./providers";
+import { getWalletsSnapshot } from "./concepts/Wallets";
 
 const Home = () => {
   return <div>Autenticado</div>;
@@ -22,6 +24,8 @@ const Home = () => {
 
 const App = () => {
   const { authCheckCompleted, user } = useSelector(authSelector);
+
+  const { startLoading, stopLoading } = useLoading();
 
   const dispatch = useDispatch();
 
@@ -58,6 +62,19 @@ const App = () => {
       fetchExistingAccount(user.email!);
     }
   }, [authCheckCompleted, fetchExistingAccount, user]);
+
+  useEffect(() => {
+    if (user) {
+      startLoading();
+
+      const unsub = getWalletsSnapshot(user.uid, dispatch, stopLoading);
+
+      return () => {
+        unsub();
+      };
+    }
+    // eslint-disable-next-line
+  }, [user]);
 
   if (!authCheckCompleted) {
     return <Loading />;

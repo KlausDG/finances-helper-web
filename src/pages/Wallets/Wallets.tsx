@@ -1,6 +1,5 @@
 import { ActionCardButton, Modal, Title } from "@/components";
 import { accountSelector } from "@/concepts/Account";
-import { authSelector } from "@/concepts/Auth";
 import {
   WalletCard,
   WalletsModal,
@@ -8,13 +7,11 @@ import {
   useDeleteWallet,
   useUpdateWalletForm,
 } from "@/concepts/Wallets";
-import { getWalletsSnapshot } from "@/concepts/Wallets/repository/snapshot";
 import { walletsSelector } from "@/concepts/Wallets/store";
 import { useModal } from "@/hooks";
 import { useLoading } from "@/providers";
 import { Heading } from "@chakra-ui/react";
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 export const WalletsPage = () => {
   const {
@@ -27,10 +24,8 @@ export const WalletsPage = () => {
     openModal: openEditModal,
     closeModal: closeEditModal,
   } = useModal();
-  const { user } = useSelector(authSelector);
   const { totalPercentage } = useSelector(accountSelector);
   const wallets = useSelector(walletsSelector);
-  const dispatch = useDispatch();
 
   const {
     currentAccountPercentage,
@@ -51,25 +46,12 @@ export const WalletsPage = () => {
 
   const { handleDeleteWallet } = useDeleteWallet();
 
-  const { startLoading, stopLoading, loading } = useLoading();
+  const { loading } = useLoading();
 
   const addWallet = () => {
     resetWallet();
     openCreateModal();
   };
-
-  useEffect(() => {
-    if (user) {
-      startLoading();
-
-      const unsub = getWalletsSnapshot(user.uid, dispatch, stopLoading);
-
-      return () => {
-        unsub();
-      };
-    }
-    // eslint-disable-next-line
-  }, [user]);
 
   return (
     <div>

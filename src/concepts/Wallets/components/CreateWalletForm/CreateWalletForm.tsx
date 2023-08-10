@@ -7,7 +7,7 @@ import { useLoading } from "@/providers";
 export const CreateWalletForm = ({ closeModal }: CreateWalletFormProps) => {
   const {
     currentAccountPercentage,
-    handleCreateWallet,
+    handleWallet,
     handleNameInputChange,
     handlePercentageInputChange,
     wallet,
@@ -39,7 +39,7 @@ export const CreateWalletForm = ({ closeModal }: CreateWalletFormProps) => {
       <div className="mt-4 m-auto">
         <Button
           colorScheme="green"
-          onClick={() => handleCreateWallet(closeModal)}
+          onClick={() => handleWallet(closeModal)}
           isLoading={loading}
         >
           Adicionar
