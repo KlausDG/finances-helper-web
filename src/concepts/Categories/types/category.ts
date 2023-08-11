@@ -9,3 +9,5 @@ export type CategoryFormData = {
   color?: string;
   walletId?: string;
 };
+
+export type CategoriesState = Array<Category>;

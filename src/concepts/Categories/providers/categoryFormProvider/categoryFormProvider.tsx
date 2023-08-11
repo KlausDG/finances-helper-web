@@ -11,6 +11,7 @@ import { CategoryFormData } from "../../types";
 import { useModal } from "@/hooks";
 import * as yup from "yup";
 import { CategoryFormContextType } from "./categoryFormProvider.types";
+import { authSelector } from "@/concepts/Auth";
 
 export const CategoryFormContext =
   createContext<CategoryFormContextType>(undefined);
@@ -48,12 +49,13 @@ export const CategoryFormProvider = ({ children }: WithChildren) => {
   const { loading, startLoading, stopLoading } = useLoading();
   const { isOpen, openModal, closeModal } = useModal();
 
+  const { user } = useSelector(authSelector);
   const wallets = useSelector(walletsSelector);
 
   const handleCreateCategory = () => {
     startLoading();
     try {
-      createCategory(getValues());
+      createCategory(getValues(), user!.uid);
       toast.success("Categoria criada com sucesso!");
     } catch (error) {
       toast.error("Ocorreu um erro.");
