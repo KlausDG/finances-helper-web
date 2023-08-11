@@ -6,7 +6,7 @@ const customStyles = {
     backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
   content: {
-    margin: "15% auto 0 auto",
+    margin: "5% auto 0 auto",
     width: "fit-content",
     height: "fit-content",
     border: "1px solid #ccc",

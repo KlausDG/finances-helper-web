@@ -5,6 +5,7 @@ import { auth } from "./services/firebase";
 import { BrowserRouter, Link, Route, Routes } from "react-router-dom";
 import { Header, Loading, Menu, PrivateRoute } from "./components";
 import { WalletsPage } from "./pages/Wallets";
+import { CategoriesPage } from "./pages/Categories";
 import { Toaster } from "react-hot-toast";
 import {
   authSelector,
@@ -14,6 +15,9 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { createAccount } from "./concepts/Account";
 import { getAccount } from "./concepts/Account/repository/get";
+import { useLoading } from "./providers";
+import { getWalletsSnapshot } from "./concepts/Wallets";
+import { CategoryFormProvider } from "./concepts/Categories/providers";
 
 const Home = () => {
   return <div>Autenticado</div>;
@@ -21,6 +25,8 @@ const Home = () => {
 
 const App = () => {
   const { authCheckCompleted, user } = useSelector(authSelector);
+
+  const { startLoading, stopLoading } = useLoading();
 
   const dispatch = useDispatch();
 
@@ -58,6 +64,19 @@ const App = () => {
     }
   }, [authCheckCompleted, fetchExistingAccount, user]);
 
+  useEffect(() => {
+    if (user) {
+      startLoading();
+
+      const unsub = getWalletsSnapshot(user.uid, dispatch, stopLoading);
+
+      return () => {
+        unsub();
+      };
+    }
+    // eslint-disable-next-line
+  }, [user]);
+
   if (!authCheckCompleted) {
     return <Loading />;
   }
@@ -71,6 +90,9 @@ const App = () => {
               <Menu>
                 <Link to="/wallets" className="text-white">
                   Carteiras
+                </Link>
+                <Link to="/categories" className="text-white">
+                  Categorias
                 </Link>
               </Menu>
             }
@@ -89,6 +111,19 @@ const App = () => {
                   <PrivateRoute
                     isAuthenticated={!!user}
                     outlet={<WalletsPage />}
+                  />
+                }
+              />
+              <Route
+                path="/categories"
+                element={
+                  <PrivateRoute
+                    isAuthenticated={!!user}
+                    outlet={
+                      <CategoryFormProvider>
+                        <CategoriesPage />
+                      </CategoryFormProvider>
+                    }
                   />
                 }
               />
