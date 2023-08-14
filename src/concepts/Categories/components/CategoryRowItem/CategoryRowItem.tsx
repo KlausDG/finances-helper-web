@@ -7,6 +7,10 @@ export const CategoryRowItem = ({
   children,
 }: CategoryRowItemProps) => {
   const { name, color, icon, wallet, type } = category;
+  const categoryTypes = {
+    income: "Renda",
+    expense: "Despesa",
+  };
   return (
     <ListItem className="grid grid-cols-5 items-center border-b pb-2">
       <div className="flex items-center gap-4 col-span-2">
@@ -16,7 +20,9 @@ export const CategoryRowItem = ({
         <Text fontSize="sm">{name}</Text>
       </div>
       <div className="">
-        <Text fontSize="sm">{type}</Text>
+        <Text fontSize="sm">
+          {categoryTypes[type as keyof typeof categoryTypes]}
+        </Text>
       </div>
       <div className="">
         <Text fontSize="sm">{wallet}</Text>

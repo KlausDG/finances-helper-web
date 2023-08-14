@@ -4,6 +4,7 @@ import {
   CreateCategoryModal,
   categoriesSelector,
   getCategoriesSnapshot,
+  useDeleteCategory,
 } from "@/concepts/Categories";
 import { useEffect, useMemo } from "react";
 import { useLoading } from "@/providers";
@@ -25,9 +26,10 @@ import { toast } from "react-hot-toast";
 
 export const CategoriesPage = () => {
   const { openModal } = useCategoryForm();
+  const { handleDeleteCategory } = useDeleteCategory();
 
-  const { startLoading, stopLoading } = useLoading();
   const dispatch = useDispatch();
+  const { startLoading, stopLoading } = useLoading();
 
   const { user } = useSelector(authSelector);
   const categories = useSelector(categoriesSelector);
@@ -80,7 +82,7 @@ export const CategoriesPage = () => {
                       colorScheme="red"
                       size="sm"
                       icon={<FaTrash />}
-                      onClick={() => toast.error("Não implementado")}
+                      onClick={() => handleDeleteCategory(category.id)}
                     />
                   </>
                 </CategoryRowItem>
