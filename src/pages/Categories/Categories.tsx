@@ -16,8 +16,12 @@ import {
   Heading,
   Button,
   List,
+  IconButton,
 } from "@chakra-ui/react";
 import { walletsSelector } from "@/concepts/Wallets";
+import { FaEdit } from "react-icons/fa";
+import { FaTrash } from "react-icons/fa6";
+import { toast } from "react-hot-toast";
 
 export const CategoriesPage = () => {
   const { openModal } = useCategoryForm();
@@ -61,7 +65,26 @@ export const CategoriesPage = () => {
         <CardBody>
           <List spacing={3}>
             {formattedCategories.map((category) => {
-              return <CategoryRowItem category={category} />;
+              return (
+                <CategoryRowItem category={category}>
+                  <>
+                    <IconButton
+                      aria-label="Edit"
+                      colorScheme="green"
+                      size="sm"
+                      icon={<FaEdit />}
+                      onClick={() => toast.error("Não implementado")}
+                    />
+                    <IconButton
+                      aria-label="Remove"
+                      colorScheme="red"
+                      size="sm"
+                      icon={<FaTrash />}
+                      onClick={() => toast.error("Não implementado")}
+                    />
+                  </>
+                </CategoryRowItem>
+              );
             })}
           </List>
         </CardBody>
