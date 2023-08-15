@@ -6,8 +6,7 @@ import { AnyAction } from "@reduxjs/toolkit";
 
 export const getWalletsSnapshot = (
   userId: string,
-  dispatch: Dispatch<AnyAction>,
-  stopLoading: () => void
+  dispatch: Dispatch<AnyAction>
 ) => {
   const q = query(collection(db, "wallets"), where("userId", "==", userId));
 
@@ -17,6 +16,5 @@ export const getWalletsSnapshot = (
     });
 
     dispatch(setWallets(snapshot));
-    stopLoading();
   });
 };

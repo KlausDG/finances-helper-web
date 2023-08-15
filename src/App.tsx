@@ -1,7 +1,7 @@
 import { useCallback, useEffect } from "react";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./services/firebase";
-import { BrowserRouter, Link } from "react-router-dom";
+import { BrowserRouter } from "react-router-dom";
 import { Header, Loading, Menu } from "./components";
 import { Toaster } from "react-hot-toast";
 import {
@@ -12,14 +12,11 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { createAccount } from "./concepts/Account";
 import { getAccount } from "./concepts/Account/repository/get";
-import { useLoading } from "./providers";
 import { getWalletsSnapshot } from "./concepts/Wallets";
 import { Router } from "./routes";
 
 const App = () => {
   const { authCheckCompleted, user } = useSelector(authSelector);
-
-  const { startLoading, stopLoading } = useLoading();
 
   const dispatch = useDispatch();
 
@@ -59,9 +56,7 @@ const App = () => {
 
   useEffect(() => {
     if (user) {
-      startLoading();
-
-      const unsub = getWalletsSnapshot(user.uid, dispatch, stopLoading);
+      const unsub = getWalletsSnapshot(user.uid, dispatch);
 
       return () => {
         unsub();
