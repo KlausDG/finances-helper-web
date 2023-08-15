@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 export const Menu = () => {
   return (
-    <nav className="flex gap-4">
+    <nav className="flex gap-16">
       {menu.map(({ link, text }) => {
         return (
           <Link to={link} className="text-white" key={link}>

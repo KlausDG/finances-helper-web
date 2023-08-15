@@ -11,14 +11,14 @@ import { store } from "./store.ts";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <Provider store={store}>
-      <ChakraProvider>
-        <LoadingProvider>
+    <LoadingProvider>
+      <Provider store={store}>
+        <ChakraProvider>
           <AccountProvider>
             <App />
           </AccountProvider>
-        </LoadingProvider>
-      </ChakraProvider>
-    </Provider>
+        </ChakraProvider>
+      </Provider>
+    </LoadingProvider>
   </React.StrictMode>
 );

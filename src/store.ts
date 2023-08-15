@@ -4,12 +4,14 @@ import walletsReducer from "./concepts/Wallets/store/walletsSlice";
 import accountSlice from "./concepts/Account/store/accountSlice";
 import selectedWalletSlice from "./concepts/Wallets/store/selectedWalletSlice";
 import categoriesSlice from "./concepts/Categories/store/categoriesSlice";
+import salarySlice from "./concepts/Salary/store/salarySlice";
 
 export const store = configureStore({
   reducer: {
     auth: authReducer,
     account: accountSlice,
     categories: categoriesSlice,
+    salary: salarySlice,
     selectedWallet: selectedWalletSlice,
     wallets: walletsReducer,
   },
