@@ -1,4 +1,4 @@
-import { walletsSelector } from "@/concepts/Wallets";
+import { selectWalletById, walletsSelector } from "@/concepts/Wallets";
 import { useLoading } from "@/providers";
 import { WithChildren } from "@/types";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -7,7 +7,7 @@ import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { useSelector } from "react-redux";
 import { createCategory } from "../..";
-import { CategoryFormData } from "../../types";
+import { CategoryFormData, CategorySubmitData } from "../../types";
 import { useModal } from "@/hooks";
 import * as yup from "yup";
 import { CategoryFormContextType } from "./categoryFormProvider.types";
@@ -55,8 +55,19 @@ export const CategoryFormProvider = ({ children }: WithChildren) => {
   const handleCreateCategory = () => {
     startLoading();
     try {
-      createCategory(getValues(), user!.uid);
-      toast.success("Categoria criada com sucesso!");
+      const wallet = selectWalletById(wallets, getValues("walletId"));
+
+      const { name, type, icon, color } = getValues();
+
+      const category: CategorySubmitData = {
+        name,
+        type,
+        icon,
+        color,
+        wallet,
+      };
+
+      createCategory(category, user!.uid);
     } catch (error) {
       toast.error("Ocorreu um erro.");
     } finally {

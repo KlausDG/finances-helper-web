@@ -4,6 +4,7 @@ import { Provider } from "react-redux";
 import App from "./App.tsx";
 
 import "./tailwind.css";
+import "react-datepicker/dist/react-datepicker.css";
 import { ChakraProvider } from "@chakra-ui/react";
 import { LoadingProvider } from "@/providers";
 import { AccountProvider } from "@/concepts/Account";

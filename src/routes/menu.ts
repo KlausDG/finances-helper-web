@@ -4,6 +4,10 @@ export const menu = [
     text: "Visão Geral",
   },
   {
+    link: "/journal",
+    text: "Lançamentos",
+  },
+  {
     link: "/wallets",
     text: "Carteiras",
   },

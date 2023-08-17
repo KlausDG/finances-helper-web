@@ -1,8 +1,6 @@
 import { WithChildren } from "@/types";
-import { Category } from "../../types";
+import { CategorySubmitData } from "../../types";
 
 export type CategoryRowItemProps = WithChildren & {
-  category: Category & {
-    wallet: string;
-  };
+  category: CategorySubmitData;
 };

@@ -6,7 +6,7 @@ import {
   getCategoriesSnapshot,
   useDeleteCategory,
 } from "@/concepts/Categories";
-import { useEffect, useMemo } from "react";
+import { useEffect } from "react";
 import { useLoading } from "@/providers";
 import { useDispatch, useSelector } from "react-redux";
 import { authSelector } from "@/concepts/Auth";
@@ -19,7 +19,6 @@ import {
   List,
   IconButton,
 } from "@chakra-ui/react";
-import { walletsSelector } from "@/concepts/Wallets";
 import { FaEdit } from "react-icons/fa";
 import { FaTrash } from "react-icons/fa6";
 import { toast } from "react-hot-toast";
@@ -33,16 +32,6 @@ export const CategoriesPage = () => {
 
   const { user } = useSelector(authSelector);
   const categories = useSelector(categoriesSelector);
-  const wallets = useSelector(walletsSelector);
-
-  const formattedCategories = useMemo(() => {
-    return categories.map((category) => {
-      return {
-        ...category,
-        wallet: wallets.find(({ id }) => id === category.walletId)?.name || "-",
-      };
-    });
-  }, [categories, wallets]);
 
   useEffect(() => {
     startLoading();
@@ -66,7 +55,7 @@ export const CategoriesPage = () => {
         </CardHeader>
         <CardBody>
           <List spacing={3}>
-            {formattedCategories.map((category) => {
+            {categories.map((category) => {
               return (
                 <CategoryRowItem category={category}>
                   <>
