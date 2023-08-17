@@ -6,6 +6,8 @@ import { CategoriesPage } from "@/pages/Categories";
 import { Home } from "@/pages/Home";
 import { SignIn } from "@/pages/SignIn";
 import { WalletsPage } from "@/pages/Wallets";
+import { JournalPage } from "@/pages/Journal";
+import { CreateJournalEntryProvider } from "@/concepts/Journal/providers";
 
 export const Router = ({ user }: { user: AuthenticatedUser | null }) => {
   return (
@@ -15,11 +17,25 @@ export const Router = ({ user }: { user: AuthenticatedUser | null }) => {
         element={<PrivateRoute isAuthenticated={!!user} outlet={<Home />} />}
       />
       <Route
+        path="/journal"
+        element={
+          <PrivateRoute
+            isAuthenticated={!!user}
+            outlet={
+              <CreateJournalEntryProvider>
+                <JournalPage />
+              </CreateJournalEntryProvider>
+            }
+          />
+        }
+      />
+      <Route
         path="/wallets"
         element={
           <PrivateRoute isAuthenticated={!!user} outlet={<WalletsPage />} />
         }
       />
+
       <Route
         path="/categories"
         element={

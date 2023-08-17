@@ -14,8 +14,14 @@ import { createAccount } from "./concepts/Account";
 import { getAccount } from "./concepts/Account/repository/get";
 import { getWalletsSnapshot } from "./concepts/Wallets";
 import { Router } from "./routes";
+import { getCategoriesSnapshot } from "./concepts/Categories";
+import { useLoading } from "./providers";
+import { getJournalEntriesSnapshot } from "./concepts/Journal";
+import { useDate } from "./hooks";
 
 const App = () => {
+  const { startLoading, stopLoading } = useLoading();
+  const { currentDate } = useDate();
   const { authCheckCompleted, user } = useSelector(authSelector);
 
   const dispatch = useDispatch();
@@ -57,6 +63,37 @@ const App = () => {
   useEffect(() => {
     if (user) {
       const unsub = getWalletsSnapshot(user.uid, dispatch);
+
+      return () => {
+        unsub();
+      };
+    }
+    // eslint-disable-next-line
+  }, [user]);
+
+  useEffect(() => {
+    if (user) {
+      startLoading();
+
+      const unsub = getCategoriesSnapshot(user.uid, dispatch, stopLoading);
+
+      return () => {
+        unsub();
+      };
+    }
+    // eslint-disable-next-line
+  }, [user]);
+
+  useEffect(() => {
+    if (user) {
+      startLoading();
+
+      const unsub = getJournalEntriesSnapshot(
+        user.uid,
+        currentDate,
+        dispatch,
+        stopLoading
+      );
 
       return () => {
         unsub();

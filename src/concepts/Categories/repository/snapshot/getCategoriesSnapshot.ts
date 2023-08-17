@@ -5,7 +5,7 @@ import { Dispatch } from "react";
 import { setCategories } from "../../store";
 
 export const getCategoriesSnapshot = (
-  userId: string,
+  userId: string | undefined,
   dispatch: Dispatch<AnyAction>,
   stopLoading: () => void
 ) => {
@@ -13,8 +13,6 @@ export const getCategoriesSnapshot = (
 
   return onSnapshot(q, (querySnapshot) => {
     const snapshot = querySnapshot.docs.map((doc) => {
-      console.log(doc.data());
-
       return doc.data();
     });
 
