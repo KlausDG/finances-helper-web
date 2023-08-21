@@ -5,7 +5,7 @@ import { v4 as uuidv4 } from "uuid";
 import { getCurrentSalaryKey } from "../../utils";
 
 export const createSalary = async (
-  salaryData: { amount: string },
+  salaryData: { amount: number },
   userId: string
 ) => {
   const salary = {

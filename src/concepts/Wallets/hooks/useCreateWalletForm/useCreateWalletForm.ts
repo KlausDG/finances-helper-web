@@ -1,11 +1,12 @@
 import { useMemo, useState } from "react";
-import { createWallet } from "../../repository";
 import toast from "react-hot-toast";
+import { useSelector } from "react-redux";
+import { FieldValue } from "firebase/firestore";
+
 import { accountSelector, useAccount } from "@/concepts/Account";
 import { useLoading } from "@/providers";
-import { useSelector } from "react-redux";
+import { createWallet } from "../../repository";
 import { Wallet } from "../../types";
-import { FieldValue } from "firebase/firestore";
 
 const defaulWalletValues = {
   id: "",
@@ -25,7 +26,7 @@ export const useCreateWalletForm = () => {
   const { handleAccountPercentageUpdate } = useAccount();
 
   const remainingAccountPercentage = useMemo(() => {
-    const currentPercentage = Number(account.totalPercentage.value);
+    const currentPercentage = account.totalPercentage.value;
 
     return 100 - currentPercentage;
   }, [account]);

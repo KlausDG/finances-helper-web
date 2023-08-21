@@ -31,7 +31,7 @@ export const useUpdateWalletForm = () => {
   const selectedWallet = useSelector(selectedWalletSelector);
 
   const remainingAccountPercentage = useMemo(() => {
-    const currentPercentage = Number(account.totalPercentage.value);
+    const currentPercentage = account.totalPercentage.value;
 
     return 100 - currentPercentage;
   }, [account]);
@@ -41,12 +41,12 @@ export const useUpdateWalletForm = () => {
 
     dispatch(selectWallet(wallet));
     setFormValues({ name, percentage });
-    handleEditatablePercentageLimit(Number(wallet.percentage));
+    handleEditatablePercentageLimit(wallet.percentage);
     openModal();
   };
 
   const handleEditatablePercentageLimit = (percentage: number) => {
-    if (Number(account.totalPercentage) === 100) {
+    if (account.totalPercentage.value === 100) {
       setEditablePercentageLimit(percentage);
     } else {
       setEditablePercentageLimit(percentage + remainingAccountPercentage);

@@ -44,7 +44,7 @@ export const AccountProvider = ({ children }: WithChildren) => {
       : [...filteredWalletsArray, modifiedWallet];
 
     const totalPercentage = arrayToSum.reduce(
-      (acc, wallet) => (acc += Number(wallet?.percentage)),
+      (acc, wallet) => (acc += wallet?.percentage),
       0
     );
 

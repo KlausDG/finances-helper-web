@@ -1,7 +1,7 @@
 import { FieldValue } from "firebase/firestore";
 
 export type Salary = {
-  salary: string;
+  amount: number;
   id: string;
   createdAt: FieldValue;
   userId: string;

@@ -39,7 +39,7 @@ export const WalletsReportCard = () => {
       return journalEntries.reduce((acc, entry) => {
         const wallet = entry.category?.wallet;
         if (wallet?.name === walletName) {
-          acc += Number(entry.amount);
+          acc += entry.amount;
         }
         return acc;
       }, 0);
@@ -49,7 +49,7 @@ export const WalletsReportCard = () => {
 
   const getCurrentPercentage = (value: number, totalValue: number) => {
     const rawValue = (100 * value) / totalValue;
-    return rawValue.toFixed(2);
+    return Number(rawValue.toFixed(2));
   };
 
   useEffect(() => {
@@ -57,7 +57,7 @@ export const WalletsReportCard = () => {
 
     const formattedWalletsArray = sortedWallets.map((wallet) => {
       const totalValue = getSalaryAmountByWalletPercentage(
-        Number(salary.salary),
+        salary.amount,
         wallet.percentage
       );
 
@@ -76,7 +76,7 @@ export const WalletsReportCard = () => {
     });
 
     setFormattedWallets(formattedWalletsArray);
-  }, [salary.salary, sumEntriesByWalletName, wallets]);
+  }, [salary.amount, sumEntriesByWalletName, wallets]);
 
   return (
     <Card>
