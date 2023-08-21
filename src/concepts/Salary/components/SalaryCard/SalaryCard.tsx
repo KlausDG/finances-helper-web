@@ -34,7 +34,7 @@ export const SalaryCard = () => {
                   fontSize="1rem"
                   children="R$"
                 />
-                <Input {...register("salary")} isRequired type="number" />
+                <Input {...register("amount")} isRequired type="number" />
               </InputGroup>
             </FormControl>
             <Button
@@ -46,7 +46,13 @@ export const SalaryCard = () => {
             </Button>
           </div>
         ) : (
-          <div>R$ {salary.salary}</div>
+          <div>
+            <div>
+              Data de referência: {salary.referenceMonth} de
+              {salary.referenceYear}
+            </div>
+            <div>Valor salário base: R$ {salary.salary}</div>
+          </div>
         )}
       </CardBody>
     </Card>

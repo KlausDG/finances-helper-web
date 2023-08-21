@@ -12,7 +12,7 @@ export const createJournalEntry = async (
     ...journalEntryData,
     id: uuidv4(),
     createdAt: serverTimestamp(),
-    referenceMonth: journalEntryData.date.toLocaleString("default", {
+    referenceMonth: journalEntryData.date.toLocaleString("pt-BR", {
       month: "long",
     }),
     referenceYear: journalEntryData.date.getFullYear(),
