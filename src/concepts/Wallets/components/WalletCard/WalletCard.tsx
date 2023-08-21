@@ -1,5 +1,4 @@
-import { Title } from "@/components";
-import { Button, Card, CardBody, Heading } from "@chakra-ui/react";
+import { Button, Card, CardBody, Heading, Text } from "@chakra-ui/react";
 import { WalletCardProps } from "./WalletCard.types";
 
 export const WalletCard = ({
@@ -11,14 +10,14 @@ export const WalletCard = ({
     <Card className="min-h-[210px]">
       <CardBody className="flex flex-col items-center justify-between">
         <div>
-          <Heading>{wallet.name}</Heading>
-          <Title text={`${wallet.percentage} %`}></Title>
+          <Heading size="md">{wallet.name}</Heading>
+          <Text className="text-center mt-2">{wallet.percentage} %</Text>
         </div>
         <div className="flex gap-4">
-          <Button className="w-32" onClick={onEditClick}>
+          <Button colorScheme="green" className="w-32" onClick={onEditClick}>
             Editar
           </Button>
-          <Button className="w-32" onClick={onRemoveClick}>
+          <Button colorScheme="red" className="w-32" onClick={onRemoveClick}>
             Remover
           </Button>
         </div>

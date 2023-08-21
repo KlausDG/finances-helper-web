@@ -37,6 +37,8 @@ export const WalletsReportCard = () => {
   const sumEntriesByWalletName = useCallback(
     (walletName: string) => {
       return journalEntries.reduce((acc, entry) => {
+        console.log(entry);
+
         const wallet = entry.category?.wallet;
         if (wallet?.name === walletName) {
           acc += entry.amount;
@@ -67,6 +69,7 @@ export const WalletsReportCard = () => {
         totalValue
       );
 
+      console.log(currentValue);
       return {
         ...wallet,
         totalValue,
