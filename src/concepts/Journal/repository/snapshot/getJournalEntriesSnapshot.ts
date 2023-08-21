@@ -10,8 +10,6 @@ export const getJournalEntriesSnapshot = (
   dispatch: Dispatch<AnyAction>,
   stopLoading: () => void
 ) => {
-  console.log(date);
-
   const q = query(
     collection(db, "journal"),
     where("userId", "==", userId),

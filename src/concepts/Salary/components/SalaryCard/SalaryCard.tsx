@@ -48,7 +48,7 @@ export const SalaryCard = () => {
         ) : (
           <div>
             <div>
-              Data de referência: {salary.referenceMonth} de
+              Data de referência: {salary.referenceMonth} de{" "}
               {salary.referenceYear}
             </div>
             <div>Valor salário base: R$ {salary.amount}</div>
