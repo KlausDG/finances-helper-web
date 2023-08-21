@@ -3,13 +3,9 @@ import {
   CategoryRowItem,
   CreateCategoryModal,
   categoriesSelector,
-  getCategoriesSnapshot,
   useDeleteCategory,
 } from "@/concepts/Categories";
-import { useEffect } from "react";
-import { useLoading } from "@/providers";
-import { useDispatch, useSelector } from "react-redux";
-import { authSelector } from "@/concepts/Auth";
+import { useSelector } from "react-redux";
 import {
   Card,
   CardHeader,
@@ -27,22 +23,7 @@ export const CategoriesPage = () => {
   const { openModal } = useCategoryForm();
   const { handleDeleteCategory } = useDeleteCategory();
 
-  const dispatch = useDispatch();
-  const { startLoading, stopLoading } = useLoading();
-
-  const { user } = useSelector(authSelector);
   const categories = useSelector(categoriesSelector);
-
-  useEffect(() => {
-    startLoading();
-
-    const unsub = getCategoriesSnapshot(user!.uid, dispatch, stopLoading);
-
-    return () => {
-      unsub();
-    };
-    // eslint-disable-next-line
-  }, []);
 
   return (
     <div>
@@ -57,7 +38,7 @@ export const CategoriesPage = () => {
           <List spacing={3}>
             {categories.map((category) => {
               return (
-                <CategoryRowItem category={category}>
+                <CategoryRowItem category={category} key={category.id}>
                   <>
                     <IconButton
                       aria-label="Edit"
