@@ -8,11 +8,11 @@ import { authSelector } from "@/concepts/Auth";
 import { useSelector } from "react-redux";
 
 const schema = yup.object({
-  amount: yup.string().required(),
+  amount: yup.number().required(),
 });
 
 const initialState = {
-  amount: "",
+  amount: 0,
 };
 
 export const useCreateSalary = () => {

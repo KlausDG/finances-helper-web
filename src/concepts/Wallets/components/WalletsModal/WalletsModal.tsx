@@ -4,11 +4,11 @@ import { Button, Input } from "@chakra-ui/react";
 type WalletsModalProps = {
   wallet: {
     name: string;
-    percentage: string;
+    percentage: number;
   };
   currentAccountPercentage: number;
   handleNameInputChange: (value: string) => void;
-  handlePercentageInputChange: (value: string) => void;
+  handlePercentageInputChange: (value: number) => void;
   onSubmit: () => Promise<void>;
   isLoading: boolean;
 };
@@ -39,7 +39,9 @@ export const WalletsModal = ({
           size="sm"
           value={wallet.percentage}
           type="number"
-          onChange={(event) => handlePercentageInputChange(event.target.value)}
+          onChange={(event) =>
+            handlePercentageInputChange(Number(event.target.value))
+          }
         />
       </div>
       <div className="mt-4 m-auto">

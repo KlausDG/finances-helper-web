@@ -16,7 +16,7 @@ export const getCategoriesSnapshot = (
       return doc.data();
     });
 
-    dispatch(setCategories(snapshot));
     stopLoading();
+    dispatch(setCategories(snapshot));
   });
 };

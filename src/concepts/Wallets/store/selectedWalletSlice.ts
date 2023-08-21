@@ -5,7 +5,7 @@ import { FieldValue } from "firebase/firestore";
 const defaulWalletValues = {
   id: "",
   name: "",
-  percentage: "",
+  percentage: 0,
   userId: "",
   lastUpdated: {} as FieldValue,
 };

@@ -1,25 +1,25 @@
 import { useCallback, useEffect } from "react";
 import { onAuthStateChanged } from "firebase/auth";
-import { auth } from "./services/firebase";
-import { BrowserRouter } from "react-router-dom";
-import { Header, Loading, Menu } from "./components";
 import { Toaster } from "react-hot-toast";
+import { BrowserRouter } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+
+import { auth } from "@/services/firebase";
+import { Header, Loading, Menu } from "@/components";
 import {
   authSelector,
   completeAuthCheck,
   setAuthenticatedUser,
 } from "@/concepts/Auth";
-import { useDispatch, useSelector } from "react-redux";
-import { createAccount } from "./concepts/Account";
-import { getAccount } from "./concepts/Account/repository/get";
-import { getWalletsSnapshot } from "./concepts/Wallets";
-import { Router } from "./routes";
-import { getCategoriesSnapshot } from "./concepts/Categories";
-import { useLoading } from "./providers";
-import { getJournalEntriesSnapshot } from "./concepts/Journal";
-import { useDate } from "./hooks";
-import { getSalarySnapshot } from "./concepts/Salary/repository";
-import { getMonthPtBR, getYear } from "./utils";
+import { createAccount, getAccount } from "@/concepts/Account";
+import { getWalletsSnapshot } from "@/concepts/Wallets";
+import { getCategoriesSnapshot } from "@/concepts/Categories";
+import { getJournalEntriesSnapshot } from "@/concepts/Journal";
+import { getSalarySnapshot } from "@/concepts/Salary";
+import { Router } from "@/routes";
+import { useLoading } from "@/providers";
+import { useDate } from "@/hooks";
+import { getMonthPtBR, getYear } from "@/utils";
 
 const App = () => {
   const { loading, startLoading, stopLoading } = useLoading();

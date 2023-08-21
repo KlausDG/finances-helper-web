@@ -3,7 +3,7 @@ import { Salary } from "../types";
 import { FieldValue } from "firebase/firestore";
 
 const initialState: Salary = {
-  salary: "",
+  amount: 0,
   id: "",
   createdAt: {} as FieldValue,
   userId: "",

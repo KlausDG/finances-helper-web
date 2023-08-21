@@ -33,7 +33,9 @@ export const CreateWalletForm = ({ closeModal }: CreateWalletFormProps) => {
           size="sm"
           value={wallet.percentage}
           type="number"
-          onChange={(event) => handlePercentageInputChange(event.target.value)}
+          onChange={(event) =>
+            handlePercentageInputChange(Number(event.target.value))
+          }
         />
       </div>
       <div className="mt-4 m-auto">
