@@ -71,8 +71,6 @@ export const JournalPage = () => {
         </CardHeader>
         <CardBody>
           {journal.map((journalEntry) => {
-            console.log(journalEntry.date);
-
             return (
               <div className="flex gap-4 items-center">
                 <Circle size="sm" className={journalEntry.category?.color}>

@@ -18,9 +18,11 @@ import { getCategoriesSnapshot } from "./concepts/Categories";
 import { useLoading } from "./providers";
 import { getJournalEntriesSnapshot } from "./concepts/Journal";
 import { useDate } from "./hooks";
+import { getSalarySnapshot } from "./concepts/Salary/repository";
+import { getMonthPtBR, getYear } from "./utils";
 
 const App = () => {
-  const { startLoading, stopLoading } = useLoading();
+  const { loading, startLoading, stopLoading } = useLoading();
   const { currentDate } = useDate();
   const { authCheckCompleted, user } = useSelector(authSelector);
 
@@ -102,7 +104,26 @@ const App = () => {
     // eslint-disable-next-line
   }, [user]);
 
-  if (!authCheckCompleted) {
+  useEffect(() => {
+    if (user) {
+      startLoading();
+
+      const unsub = getSalarySnapshot(
+        user.uid,
+        getMonthPtBR(),
+        getYear(),
+        dispatch,
+        stopLoading
+      );
+
+      return () => {
+        unsub();
+      };
+    }
+    // eslint-disable-next-line
+  }, [user]);
+
+  if (!authCheckCompleted || loading) {
     return <Loading />;
   }
 

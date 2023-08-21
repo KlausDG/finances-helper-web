@@ -5,12 +5,13 @@ export type JournalEntryFormData = {
   description: string;
   amount: number;
   categoryId: string;
-  date: Date | Timestamp;
+  date: Date;
   comment?: string;
 };
 
-export type JournalEntry = JournalEntrySubmitData & {
+export type JournalEntry = Omit<JournalEntrySubmitData, "date"> & {
   id: string;
+  date: Timestamp;
   createdAt: FieldValue;
   userId: string;
   referenceMonth: string;
