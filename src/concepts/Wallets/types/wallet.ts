@@ -6,7 +6,7 @@ export type Wallet = WalletProps & {
 
 export type WalletProps = {
   name: string;
-  percentage: string;
+  percentage: number;
   userId: string;
   lastUpdated: FieldValue;
 };

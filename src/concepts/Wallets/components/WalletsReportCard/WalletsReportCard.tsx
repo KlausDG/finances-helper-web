@@ -58,7 +58,7 @@ export const WalletsReportCard = () => {
     const formattedWalletsArray = sortedWallets.map((wallet) => {
       const totalValue = getSalaryAmountByWalletPercentage(
         Number(salary.salary),
-        Number(wallet.percentage)
+        wallet.percentage
       );
 
       const currentValue = sumEntriesByWalletName(wallet.name);

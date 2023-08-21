@@ -1,21 +1,22 @@
-import { selectedWalletSelector } from "./../../store/selectedWalletSelector";
 import { useMemo, useState } from "react";
-import { WalletProps } from "../../types";
 import { useDispatch, useSelector } from "react-redux";
+import toast from "react-hot-toast";
+
+import { accountSelector, useAccount } from "@/concepts/Account";
+import { useLoading } from "@/providers";
+import { updateWallet } from "../../repository";
 import {
   clearSelectedWallet,
   selectWallet,
   updateSelectedWallet,
-  updateWallet,
-} from "../..";
-import { accountSelector, useAccount } from "@/concepts/Account";
-import { useLoading } from "@/providers";
-import toast from "react-hot-toast";
+  selectedWalletSelector,
+} from "../../store";
+import { WalletProps } from "../../types";
 
 export const useUpdateWalletForm = () => {
   const [formValues, setFormValues] = useState({
     name: "",
-    percentage: "",
+    percentage: 0,
   });
 
   const [editablePercentageLimit, setEditablePercentageLimit] = useState(0);
@@ -61,16 +62,14 @@ export const useUpdateWalletForm = () => {
     });
   };
 
-  const handlePercentageInputChange = (value: string) => {
+  const handlePercentageInputChange = (value: number) => {
     const validatedValue =
-      Number(value) > editablePercentageLimit
-        ? editablePercentageLimit
-        : Number(value);
+      value > editablePercentageLimit ? editablePercentageLimit : value;
 
     setFormValues((prev) => {
       return {
         ...prev,
-        percentage: validatedValue.toString(),
+        percentage: validatedValue,
       };
     });
   };

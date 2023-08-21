@@ -1,7 +1,12 @@
 import { Title } from "@/components";
 import { Button, Card, CardBody, Heading } from "@chakra-ui/react";
+import { WalletCardProps } from "./WalletCard.types";
 
-export const WalletCard = ({ wallet, onEditClick, onRemoveClick }) => {
+export const WalletCard = ({
+  wallet,
+  onEditClick,
+  onRemoveClick,
+}: WalletCardProps) => {
   return (
     <Card className="min-h-[210px]">
       <CardBody className="flex flex-col items-center justify-between">

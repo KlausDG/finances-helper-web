@@ -10,7 +10,7 @@ import { FieldValue } from "firebase/firestore";
 const defaulWalletValues = {
   id: "",
   name: "",
-  percentage: "",
+  percentage: 0,
   userId: "",
   lastUpdated: {} as FieldValue,
 };
@@ -43,16 +43,14 @@ export const useCreateWalletForm = () => {
     });
   };
 
-  const handlePercentageInputChange = (value: string) => {
+  const handlePercentageInputChange = (value: number) => {
     const validatedValue =
-      Number(value) > remainingAccountPercentage
-        ? remainingAccountPercentage
-        : value;
+      value > remainingAccountPercentage ? remainingAccountPercentage : value;
 
     setWallet((prev) => {
       return {
         ...prev,
-        percentage: validatedValue.toString(),
+        percentage: validatedValue,
       };
     });
   };
