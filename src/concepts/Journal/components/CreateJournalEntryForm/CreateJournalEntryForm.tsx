@@ -45,7 +45,7 @@ export const CreateJournalEntryForm = () => {
       </div>
       <FormControl>
         <FormLabel as="p">Categoria</FormLabel>
-        <Select placeholder="Select option" {...register("categoryId")}>
+        <Select placeholder="Escolha uma categoria" {...register("categoryId")}>
           {categories.map((category) => (
             <option value={category.id} key={category.id}>
               {category.name}

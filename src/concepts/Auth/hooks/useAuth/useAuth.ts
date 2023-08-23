@@ -1,17 +1,27 @@
 import { createAccount } from "@/concepts/Account";
 import { auth } from "@/services/firebase";
-import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import {
+  GoogleAuthProvider,
+  getRedirectResult,
+  signInWithRedirect,
+} from "firebase/auth";
+import { toast } from "react-hot-toast";
 
 export const useAuth = () => {
   const handleGoogleSignIn = () => {
     const provider = new GoogleAuthProvider();
 
-    signInWithPopup(auth, provider)
-      .then(async (result) => {
-        createAccount(result.user);
+    signInWithRedirect(auth, provider);
+
+    getRedirectResult(auth)
+      .then((result) => {
+        toast.error(result?.user?.uid || "merda nenhuma");
+        if (result) {
+          createAccount(result.user);
+        }
       })
       .catch((error) => {
-        console.log(error);
+        toast.error(error);
       });
   };
 

@@ -18,13 +18,13 @@ import { getJournalEntriesSnapshot } from "@/concepts/Journal";
 import { getSalarySnapshot } from "@/concepts/Salary";
 import { Router } from "@/routes";
 import { useLoading } from "@/providers";
-import { useDate } from "@/hooks";
 import { getMonthPtBR, getYear } from "@/utils";
+import { selectedDateSelector } from "./store/selectedDate";
 
 const App = () => {
   const { loading, startLoading, stopLoading } = useLoading();
-  const { currentDate } = useDate();
   const { authCheckCompleted, user } = useSelector(authSelector);
+  const selectedDate = useSelector(selectedDateSelector);
 
   const dispatch = useDispatch();
 
@@ -92,7 +92,7 @@ const App = () => {
 
       const unsub = getJournalEntriesSnapshot(
         user.uid,
-        currentDate,
+        selectedDate,
         dispatch,
         stopLoading
       );
@@ -102,7 +102,7 @@ const App = () => {
       };
     }
     // eslint-disable-next-line
-  }, [user]);
+  }, [user, selectedDate]);
 
   useEffect(() => {
     if (user) {
