@@ -7,6 +7,15 @@ export type JournalEntryFormData = {
   categoryId: string;
   date: Date;
   comment?: string;
+  hasRebate: boolean;
+  rebateAmount: number;
+  rebateDescription: string;
+};
+
+export type Rebate = {
+  hasRebate: boolean;
+  amount: number;
+  description: string;
 };
 
 export type JournalEntry = Omit<JournalEntrySubmitData, "date"> & {
@@ -20,7 +29,8 @@ export type JournalEntry = Omit<JournalEntrySubmitData, "date"> & {
 
 export type JournalEntrySubmitData = Omit<
   JournalEntryFormData,
-  "categoryId"
+  "categoryId" | "hasRebate" | "rebateAmount" | "rebateDescription"
 > & {
   category?: Category;
+  rebate: Rebate;
 };

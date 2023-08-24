@@ -6,6 +6,7 @@ import {
   FormLabel,
   Input,
   Select,
+  Switch,
   Textarea,
 } from "@chakra-ui/react";
 import { useSelector } from "react-redux";
@@ -14,7 +15,8 @@ import { Controller } from "react-hook-form";
 
 export const CreateJournalEntryForm = () => {
   const categories = useSelector(categoriesSelector);
-  const { register, control, handleSubmit } = useCreateJournalEntry();
+  const { register, control, watch, handleSubmit, toggleRebate } =
+    useCreateJournalEntry();
 
   return (
     <div className="flex flex-col gap-4">
@@ -25,7 +27,11 @@ export const CreateJournalEntryForm = () => {
       <div className="flex gap-4 items-end">
         <FormControl>
           <FormLabel>Valor</FormLabel>
-          <Input {...register("amount")} />
+          <Input
+            {...register("amount", {
+              valueAsNumber: true,
+            })}
+          />
         </FormControl>
         <FormControl>
           <FormLabel>Data</FormLabel>
@@ -61,6 +67,36 @@ export const CreateJournalEntryForm = () => {
           size="sm"
         />
       </FormControl>
+      <FormControl display="flex" alignItems="center">
+        <FormLabel htmlFor="rebate" mb="0">
+          Rebate?
+        </FormLabel>
+        <Switch
+          id="rebate"
+          {...register("hasRebate", {
+            onChange: toggleRebate,
+          })}
+        />
+      </FormControl>
+      {watch("hasRebate") && (
+        <div className="p-4 grid gap-4 bg-green-600 rounded-lg">
+          <FormControl>
+            <FormLabel color="gray.100">Valor</FormLabel>
+            <Input
+              {...register("rebateAmount", {
+                valueAsNumber: true,
+              })}
+              size="sm"
+              bg="gray.100"
+              type="number"
+            />
+          </FormControl>
+          <FormControl>
+            <FormLabel color="gray.100">Descrição</FormLabel>
+            <Input {...register("rebateDescription")} size="sm" bg="gray.100" />
+          </FormControl>
+        </div>
+      )}
       <div className="mt-4 m-auto">
         <Button colorScheme="green" onClick={handleSubmit} isLoading={false}>
           Adicionar

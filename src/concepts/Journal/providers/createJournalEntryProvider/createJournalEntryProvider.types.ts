@@ -1,4 +1,4 @@
-import { Control, UseFormRegister } from "react-hook-form";
+import { Control, UseFormRegister, UseFormWatch } from "react-hook-form";
 import { JournalEntryFormData } from "../../types";
 
 export type CreateJournalEntryContextType =
@@ -13,6 +13,7 @@ type CreateJournalEntryContextReturn = {
   };
   register: UseFormRegister<JournalEntryFormData>;
   control: Control<JournalEntryFormData, unknown>;
+  watch: UseFormWatch<JournalEntryFormData>;
   handleSubmit: (
     e?: React.BaseSyntheticEvent<object, unknown, unknown> | undefined
   ) => Promise<void>;
