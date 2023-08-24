@@ -8,8 +8,12 @@ export const useDate = () => {
     year: new Date().getFullYear(),
   });
 
+  const updateDate = (date: { month: string; year: number }) => {
+    setCurrentDate(date);
+  };
+
   return {
     currentDate,
-    setCurrentDate,
+    updateDate,
   };
 };

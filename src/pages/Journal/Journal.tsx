@@ -7,18 +7,18 @@ import {
   journalSelector,
 } from "@/concepts/Journal";
 import { useCreateJournalEntry } from "@/concepts/Journal/providers";
-import { useDate } from "@/hooks";
+import { selectedDateSelector } from "@/store/selectedDate";
 
 export const JournalPage = () => {
   const { modal } = useCreateJournalEntry();
-  const { currentDate } = useDate();
   const journal = useSelector(journalSelector);
+  const selectedDate = useSelector(selectedDateSelector);
 
   return (
     <div>
       <Card className="w-[800px] m-auto">
         <CardHeader className="grid grid-cols-3">
-          <CardHeaderContent currentDate={currentDate} modal={modal} />
+          <CardHeaderContent currentDate={selectedDate} modal={modal} />
         </CardHeader>
         <CardBody className="grid gap-2">
           {journal.map((journalEntry) => {
