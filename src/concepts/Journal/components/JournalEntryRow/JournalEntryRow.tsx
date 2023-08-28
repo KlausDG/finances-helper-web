@@ -3,6 +3,7 @@ import { Timestamp } from "firebase/firestore";
 import { JournalEntryRowProps } from "./JournalEntryRow.types";
 import { Circle, Icon } from "@/components";
 import { formatFirebaseTimestampToBrazilianDate } from "@/utils";
+import { formatCurrency } from "@brazilian-utils/brazilian-utils";
 
 export const JournalEntryRow = ({ journalEntry }: JournalEntryRowProps) => {
   const { category } = journalEntry;
@@ -15,10 +16,10 @@ export const JournalEntryRow = ({ journalEntry }: JournalEntryRowProps) => {
         </Circle>
         <Text>{journalEntry.description}</Text>
       </div>
-      <Text>
+      <Text className="text-center">
         {formatFirebaseTimestampToBrazilianDate(journalEntry.date as Timestamp)}
       </Text>
-      <Text>R$ {journalEntry.amount}</Text>
+      <Text>R$ {formatCurrency(journalEntry.total)}</Text>
     </div>
   );
 };

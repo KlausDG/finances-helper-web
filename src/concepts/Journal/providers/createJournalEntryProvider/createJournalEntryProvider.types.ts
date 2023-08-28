@@ -14,6 +14,7 @@ type CreateJournalEntryContextReturn = {
   register: UseFormRegister<JournalEntryFormData>;
   control: Control<JournalEntryFormData, unknown>;
   watch: UseFormWatch<JournalEntryFormData>;
+  toggleRebate: () => void;
   handleSubmit: (
     e?: React.BaseSyntheticEvent<object, unknown, unknown> | undefined
   ) => Promise<void>;

@@ -5,23 +5,24 @@ import { useModal } from "@/hooks";
 import { useForm } from "react-hook-form";
 import { JournalEntryFormData } from "../../types";
 import { useLoading } from "@/providers";
-import { categoriesSelector, selectCategoryById } from "@/concepts/Categories";
+import { categoriesSelector } from "@/concepts/Categories";
 import { useSelector } from "react-redux";
 import toast from "react-hot-toast";
 import { createJournalEntry } from "../../repository";
 import { authSelector } from "@/concepts/Auth";
+import { convertFormData } from "../../dto";
 
 export const CreateJournalEntryContext =
   createContext<CreateJournalEntryContextType>(undefined);
 
 const initialState: JournalEntryFormData = {
   description: "",
-  amount: 0,
+  amount: "",
   categoryId: "",
   date: new Date(),
   comment: "",
   hasRebate: false,
-  rebateAmount: 0,
+  rebateAmount: "",
   rebateDescription: "",
 };
 
@@ -31,12 +32,15 @@ export const CreateJournalEntryProvider = ({ children }: WithChildren) => {
     control,
     handleSubmit,
     getValues,
+    setValue,
     reset,
     resetField,
     watch,
   } = useForm<JournalEntryFormData>({
     defaultValues: initialState,
   });
+
+  console.log(watch("amount"));
 
   const { isOpen, closeModal, openModal } = useModal();
   const { loading, startLoading, stopLoading } = useLoading();
@@ -56,23 +60,8 @@ export const CreateJournalEntryProvider = ({ children }: WithChildren) => {
 
     try {
       const formValues = getValues();
-      const { description, amount, categoryId, date, comment } = formValues;
 
-      const category = selectCategoryById(categories, categoryId);
-
-      const journalEntry = {
-        description,
-        amount: Number(amount),
-        date,
-        comment,
-        category,
-        rebate: {
-          hasRebate: formValues.hasRebate,
-          amount: Number(formValues.rebateAmount),
-          description: formValues.rebateDescription,
-        },
-        total: Number(amount + formValues.rebateAmount),
-      };
+      const journalEntry = convertFormData(formValues, categories);
 
       createJournalEntry(journalEntry, user!.uid);
     } catch (error) {
@@ -105,6 +94,7 @@ export const CreateJournalEntryProvider = ({ children }: WithChildren) => {
     watch,
     handleSubmit: handleSubmit(handleCreateJournalEntry),
     toggleRebate,
+    setValue,
   };
 
   return (

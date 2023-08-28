@@ -12,6 +12,7 @@ import {
 import { useSelector } from "react-redux";
 import { useCreateJournalEntry } from "../../providers";
 import { Controller } from "react-hook-form";
+import { NumericFormat } from "react-number-format";
 
 export const CreateJournalEntryForm = () => {
   const categories = useSelector(categoriesSelector);
@@ -27,10 +28,22 @@ export const CreateJournalEntryForm = () => {
       <div className="flex gap-4 items-end">
         <FormControl>
           <FormLabel>Valor</FormLabel>
-          <Input
-            {...register("amount", {
-              valueAsNumber: true,
-            })}
+          <Controller
+            control={control}
+            name="amount"
+            render={({ field }) => (
+              <NumericFormat
+                {...field}
+                allowNegative={false}
+                prefix="R$ "
+                decimalScale={2}
+                decimalSeparator=","
+                fixedDecimalScale
+                thousandSeparator="."
+                value=""
+                customInput={Input}
+              />
+            )}
           />
         </FormControl>
         <FormControl>
@@ -82,13 +95,24 @@ export const CreateJournalEntryForm = () => {
         <div className="p-4 grid gap-4 bg-green-600 rounded-lg">
           <FormControl>
             <FormLabel color="gray.100">Valor</FormLabel>
-            <Input
-              {...register("rebateAmount", {
-                valueAsNumber: true,
-              })}
-              size="sm"
-              bg="gray.100"
-              type="number"
+            <Controller
+              control={control}
+              name="rebateAmount"
+              render={({ field }) => (
+                <NumericFormat
+                  {...field}
+                  allowNegative={false}
+                  prefix="R$ "
+                  decimalScale={2}
+                  decimalSeparator=","
+                  fixedDecimalScale
+                  thousandSeparator="."
+                  value=""
+                  customInput={Input}
+                  size="sm"
+                  bg="gray.100"
+                />
+              )}
             />
           </FormControl>
           <FormControl>
