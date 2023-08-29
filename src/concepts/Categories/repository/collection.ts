@@ -1,3 +1,3 @@
-export const categoriesCollection = `categories_${
-  import.meta.env.VITE_FIREBASE_ENV
-}`;
+import { getCurrentEnv } from "@/utils";
+
+export const categoriesCollection = `categories_${getCurrentEnv()}`;

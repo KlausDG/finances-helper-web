@@ -1,3 +1,3 @@
-export const accountCollection = `account-info_${
-  import.meta.env.VITE_FIREBASE_ENV
-}`;
+import { getCurrentEnv } from "@/utils";
+
+export const accountCollection = `account-info_${getCurrentEnv()}`;
