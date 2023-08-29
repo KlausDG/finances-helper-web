@@ -3,6 +3,7 @@ import { getMonthPtBR, getYear } from "@/utils";
 import { collection, doc, serverTimestamp, setDoc } from "firebase/firestore";
 import { v4 as uuidv4 } from "uuid";
 import { getCurrentSalaryKey } from "../../utils";
+import { salaryCollection } from "../collection";
 
 export const createSalary = async (
   salaryData: { amount: number },
@@ -17,7 +18,7 @@ export const createSalary = async (
     referenceYear: getYear(),
   };
 
-  const collectionRef = collection(db, "salaries");
+  const collectionRef = collection(db, salaryCollection);
 
   try {
     const documentRef = doc(collectionRef, getCurrentSalaryKey());

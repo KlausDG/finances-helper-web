@@ -3,6 +3,7 @@ import { JournalEntrySubmitData } from "../../types";
 import { collection, doc, serverTimestamp, setDoc } from "firebase/firestore";
 import { db } from "@/services/firebase";
 import toast from "react-hot-toast";
+import { journalCollection } from "../collection";
 
 export const createJournalEntry = async (
   journalEntryData: JournalEntrySubmitData,
@@ -19,7 +20,7 @@ export const createJournalEntry = async (
     userId,
   };
 
-  const collectionRef = collection(db, "journal");
+  const collectionRef = collection(db, journalCollection);
 
   try {
     const documentRef = doc(collectionRef, journalEntry.id);

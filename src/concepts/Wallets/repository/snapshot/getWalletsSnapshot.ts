@@ -9,13 +9,14 @@ import {
 import { setWallets } from "../../store";
 import { Dispatch } from "react";
 import { AnyAction } from "@reduxjs/toolkit";
+import { walletsCollection } from "../collection";
 
 export const getWalletsSnapshot = (
   userId: string,
   dispatch: Dispatch<AnyAction>
 ) => {
   const q = query(
-    collection(db, "wallets"),
+    collection(db, walletsCollection),
     where("userId", "==", userId),
     orderBy("percentage", "desc")
   );

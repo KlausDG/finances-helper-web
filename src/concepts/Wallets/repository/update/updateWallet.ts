@@ -6,6 +6,7 @@ import {
   updateDoc,
 } from "firebase/firestore";
 import { Wallet } from "../../types";
+import { walletsCollection } from "../collection";
 
 export const updateWallet = (walletData: Wallet) => {
   const wallet = {
@@ -13,7 +14,7 @@ export const updateWallet = (walletData: Wallet) => {
     lastUpdated: serverTimestamp(),
   };
 
-  const colletionRef = collection(db, "wallets");
+  const colletionRef = collection(db, walletsCollection);
 
   try {
     const documentRef = doc(colletionRef, wallet.id);

@@ -3,6 +3,7 @@ import { AnyAction } from "@reduxjs/toolkit";
 import { query, collection, where, onSnapshot } from "firebase/firestore";
 import { Dispatch } from "react";
 import { setSalary } from "../../store";
+import { salaryCollection } from "../collection";
 
 export const getSalarySnapshot = (
   userId: string,
@@ -12,7 +13,7 @@ export const getSalarySnapshot = (
   stopLoading: () => void
 ) => {
   const q = query(
-    collection(db, "salaries"),
+    collection(db, salaryCollection),
     where("userId", "==", userId),
     where("referenceMonth", "==", month),
     where("referenceYear", "==", year)

@@ -3,6 +3,7 @@ import { collection, onSnapshot, query, where } from "firebase/firestore";
 import { setAccount } from "../..";
 import { Dispatch } from "react";
 import { AnyAction } from "@reduxjs/toolkit";
+import { accountCollection } from "../collection";
 
 export const getAccountSnapshot = (
   userId: string,
@@ -10,7 +11,7 @@ export const getAccountSnapshot = (
   stopLoading: () => void
 ) => {
   const q = query(
-    collection(db, "account-info"),
+    collection(db, accountCollection),
     where("userId", "==", userId)
   );
 

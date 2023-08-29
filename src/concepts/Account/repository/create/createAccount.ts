@@ -1,12 +1,13 @@
 import { collection, doc, serverTimestamp, setDoc } from "firebase/firestore";
 import { db } from "@/services/firebase";
 import { AuthenticatedUser } from "@/concepts/Auth";
+import { accountCollection } from "../collection";
 
 export const createAccount = async (
   authenticatedUser: NonNullable<AuthenticatedUser>
 ) => {
   try {
-    const collectionRef = collection(db, "account-info");
+    const collectionRef = collection(db, accountCollection);
 
     const account = {
       userName: authenticatedUser.displayName,

@@ -3,6 +3,7 @@ import { collection, doc, serverTimestamp, setDoc } from "firebase/firestore";
 import { v4 as uuidv4 } from "uuid";
 import { CategorySubmitData } from "../../types";
 import toast from "react-hot-toast";
+import { categoriesCollection } from "../collection";
 
 export const createCategory = async (
   categoryData: CategorySubmitData,
@@ -16,7 +17,7 @@ export const createCategory = async (
     userId,
   };
 
-  const collectionRef = collection(db, "categories");
+  const collectionRef = collection(db, categoriesCollection);
 
   try {
     const documentRef = doc(collectionRef, category.id);

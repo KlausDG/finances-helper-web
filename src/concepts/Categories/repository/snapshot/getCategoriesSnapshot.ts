@@ -9,6 +9,7 @@ import {
 } from "firebase/firestore";
 import { Dispatch } from "react";
 import { setCategories } from "../../store";
+import { categoriesCollection } from "../collection";
 
 export const getCategoriesSnapshot = (
   userId: string | undefined,
@@ -16,7 +17,7 @@ export const getCategoriesSnapshot = (
   stopLoading: () => void
 ) => {
   const q = query(
-    collection(db, "categories"),
+    collection(db, categoriesCollection),
     where("userId", "==", userId),
     orderBy("wallet.name"),
     orderBy("name")
