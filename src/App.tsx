@@ -133,7 +133,7 @@ const App = () => {
         <BrowserRouter>
           <Header menu={<Menu />} />
           <div className="max-w-6xl m-auto py-9">
-            <Router user={user} />
+            <Router />
           </div>
         </BrowserRouter>
       </div>
