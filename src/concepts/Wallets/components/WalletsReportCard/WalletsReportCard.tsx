@@ -9,7 +9,7 @@ import {
 import { useSelector } from "react-redux";
 import { Wallet, sortWallets, walletsSelector } from "../..";
 import { journalSelector } from "@/concepts/Journal";
-import { salarySelector } from "@/concepts/Salary/store";
+import { salarySelector } from "@/concepts/Salary";
 import { useCallback, useEffect, useState } from "react";
 
 export const WalletsReportCard = () => {
@@ -37,8 +37,6 @@ export const WalletsReportCard = () => {
   const sumEntriesByWalletName = useCallback(
     (walletName: string) => {
       return journalEntries.reduce((acc, entry) => {
-        console.log(entry);
-
         const wallet = entry.category?.wallet;
         if (wallet?.name === walletName) {
           acc += entry.amount;
@@ -69,7 +67,6 @@ export const WalletsReportCard = () => {
         totalValue
       );
 
-      console.log(currentValue);
       return {
         ...wallet,
         totalValue,
@@ -88,7 +85,7 @@ export const WalletsReportCard = () => {
       </CardHeader>
       <CardBody className="grid gap-2">
         {formattedWallets.map((wallet) => (
-          <div className="grid grid-cols-5 items-center gap-4">
+          <div className="grid grid-cols-5 items-center gap-4" key={wallet.id}>
             <Text className="col-span-2">
               {wallet.name} ({wallet.percentage}%)
             </Text>
