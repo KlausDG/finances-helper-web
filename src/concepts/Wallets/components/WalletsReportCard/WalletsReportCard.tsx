@@ -39,7 +39,7 @@ export const WalletsReportCard = () => {
       return journalEntries.reduce((acc, entry) => {
         const wallet = entry.category?.wallet;
         if (wallet?.name === walletName) {
-          acc += entry.amount;
+          acc += entry.total;
         }
         return acc;
       }, 0);
