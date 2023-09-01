@@ -8,7 +8,7 @@ export const Home = () => {
   return (
     <div className="grid gap-4 grid-cols-2">
       <SalaryCard />
-      {salary.amount && <WalletsReportCard />}
+      {!!salary.amount && <WalletsReportCard />}
     </div>
   );
 };
