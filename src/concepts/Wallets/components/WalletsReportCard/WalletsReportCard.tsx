@@ -7,32 +7,24 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { useSelector } from "react-redux";
-import { Wallet, sortWallets, walletsSelector } from "../..";
+import {
+  getCurrentWalletPercentage,
+  getSalaryAmountByWalletPercentage,
+  sortWallets,
+} from "../../utils";
 import { journalSelector } from "@/concepts/Journal";
 import { salarySelector } from "@/concepts/Salary";
 import { useCallback, useEffect, useState } from "react";
+import { FormattedWalletState } from "./WalletsReportCard.types";
+import { walletsSelector } from "../../store";
 
 export const WalletsReportCard = () => {
-  const [formattedWallets, setFormattedWallets] = useState<
-    Array<
-      Wallet & {
-        totalValue: number;
-        currentValue: number;
-        currentUsedPercentage: string;
-      }
-    >
-  >([]);
+  const [formattedWallets, setFormattedWallets] =
+    useState<FormattedWalletState>([]);
+
   const wallets = useSelector(walletsSelector);
   const salary = useSelector(salarySelector);
   const journalEntries = useSelector(journalSelector);
-
-  const getSalaryAmountByWalletPercentage = (
-    salary: number,
-    walletPercentage: number
-  ) => {
-    const value = salary * (walletPercentage / 100);
-    return Number(value.toFixed(2));
-  };
 
   const sumEntriesByWalletName = useCallback(
     (walletName: string) => {
@@ -47,11 +39,6 @@ export const WalletsReportCard = () => {
     [journalEntries]
   );
 
-  const getCurrentPercentage = (value: number, totalValue: number) => {
-    const rawValue = (100 * value) / totalValue;
-    return Number(rawValue.toFixed(2));
-  };
-
   useEffect(() => {
     const sortedWallets = sortWallets(wallets, "percentage");
 
@@ -62,7 +49,7 @@ export const WalletsReportCard = () => {
       );
 
       const currentValue = sumEntriesByWalletName(wallet.name);
-      const currentUsedPercentage = getCurrentPercentage(
+      const currentUsedPercentage = getCurrentWalletPercentage(
         currentValue,
         totalValue
       );
