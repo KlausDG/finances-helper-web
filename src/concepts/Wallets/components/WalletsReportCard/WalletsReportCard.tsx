@@ -15,8 +15,12 @@ import {
 import { journalSelector } from "@/concepts/Journal";
 import { salarySelector } from "@/concepts/Salary";
 import { useCallback, useEffect, useState } from "react";
-import { FormattedWalletState } from "./WalletsReportCard.types";
+import {
+  FormattedWalletItem,
+  FormattedWalletState,
+} from "./WalletsReportCard.types";
 import { walletsSelector } from "../../store";
+import { formatCurrency } from "@brazilian-utils/brazilian-utils";
 
 export const WalletsReportCard = () => {
   const [formattedWallets, setFormattedWallets] =
@@ -25,6 +29,21 @@ export const WalletsReportCard = () => {
   const wallets = useSelector(walletsSelector);
   const salary = useSelector(salarySelector);
   const journalEntries = useSelector(journalSelector);
+
+  const valueToPercent = (value: number, max: number) => {
+    return (value * 100) / max;
+  };
+
+  const progressColorThreshold = (wallet: FormattedWalletItem) => {
+    const percent = valueToPercent(wallet.currentValue, wallet.totalValue);
+    if (percent < 34) {
+      return "green";
+    } else if (percent >= 35 && percent <= 66) {
+      return "yellow";
+    } else {
+      return "red";
+    }
+  };
 
   const sumEntriesByWalletName = useCallback(
     (walletName: string) => {
@@ -72,27 +91,28 @@ export const WalletsReportCard = () => {
       </CardHeader>
       <CardBody className="grid gap-2">
         {formattedWallets.map((wallet) => (
-          <div className="grid grid-cols-5 items-center gap-4" key={wallet.id}>
-            <Text className="col-span-2">
+          <div className="grid grid-cols-3 items-center" key={wallet.id}>
+            <Text fontSize="sm">
               {wallet.name} ({wallet.percentage}%)
             </Text>
-            <div className="col-span-2 relative">
+            <div className="relative pl-4">
               <Progress
-                colorScheme="green"
+                // colorScheme={progressColorThreshold(wallet)}
                 size="lg"
                 value={wallet.currentValue}
                 max={wallet.totalValue}
               />
               <Text
-                className="absolute translate-x-1/2 -translate-y-1/2 top-[55%] right-[50%] text-gray-400"
+                className="absolute translate-x-1/2 -translate-y-1/2 top-[55%] right-[50%] text-gray-200"
                 fontSize="xs"
               >
                 {wallet.currentUsedPercentage}
               </Text>
             </div>
-            <div className="text-right">
-              {wallet.currentValue}/{wallet.totalValue}
-            </div>
+            <Text className="text-right" fontSize="xs">
+              R$ {formatCurrency(wallet.currentValue)} / R$
+              {formatCurrency(wallet.totalValue)}
+            </Text>
           </div>
         ))}
       </CardBody>
