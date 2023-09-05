@@ -7,3 +7,8 @@ export type FormattedWalletItem = Wallet & {
   currentValue: number;
   currentUsedPercentage: string;
 };
+
+export type TotalUsedData = {
+  value: number;
+  percentage: string;
+};
