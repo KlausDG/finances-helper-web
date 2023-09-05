@@ -4,8 +4,6 @@ import { PercentageCell, UsedAmountCell } from "..";
 type ReportTotalProps = { value: number; total: number; used: string };
 
 export const ReportTotal = ({ value, total, used }: ReportTotalProps) => {
-  console.log(value, total, used);
-
   return (
     <div className="grid grid-cols-3 items-center">
       <Text fontSize="sm">Total</Text>

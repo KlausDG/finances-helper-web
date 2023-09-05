@@ -83,7 +83,7 @@ export const WalletsReportCard = () => {
       </CardHeader>
       <CardBody className="grid gap-2">
         {formattedWallets.map((wallet) => (
-          <ReportItem wallet={wallet} />
+          <ReportItem wallet={wallet} key={wallet.id} />
         ))}
         <Divider />
         <ReportTotal
