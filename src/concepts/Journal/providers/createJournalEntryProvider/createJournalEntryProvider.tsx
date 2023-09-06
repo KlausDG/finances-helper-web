@@ -39,9 +39,6 @@ export const CreateJournalEntryProvider = ({ children }: WithChildren) => {
   } = useForm<JournalEntryFormData>({
     defaultValues: initialState,
   });
-
-  console.log(watch("amount"));
-
   const { isOpen, closeModal, openModal } = useModal();
   const { loading, startLoading, stopLoading } = useLoading();
 
