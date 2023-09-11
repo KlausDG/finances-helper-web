@@ -15,4 +15,8 @@ export const menu = [
     link: "/categories",
     text: "Categorias",
   },
+  {
+    link: "/reports",
+    text: "Relatórios",
+  },
 ];
