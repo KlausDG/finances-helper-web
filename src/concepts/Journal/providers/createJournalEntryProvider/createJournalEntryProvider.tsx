@@ -1,15 +1,17 @@
 import { createContext } from "react";
-import { CreateJournalEntryContextType } from "./createJournalEntryProvider.types";
-import { WithChildren } from "@/types";
-import { useModal } from "@/hooks";
 import { useForm } from "react-hook-form";
-import { JournalEntryFormData } from "../../types";
-import { useLoading } from "@/providers";
-import { categoriesSelector } from "@/concepts/Categories";
 import { useSelector } from "react-redux";
 import toast from "react-hot-toast";
-import { createJournalEntry } from "../../repository";
+import currency from "currency.js";
+
 import { authSelector } from "@/concepts/Auth";
+import { categoriesSelector } from "@/concepts/Categories";
+import { useModal } from "@/hooks";
+import { WithChildren } from "@/types";
+import { useLoading } from "@/providers";
+import { CreateJournalEntryContextType } from "./createJournalEntryProvider.types";
+import { JournalEntryFormData } from "../../types";
+import { createJournalEntry } from "../../repository";
 import { convertFormData } from "../../dto";
 
 export const CreateJournalEntryContext =
@@ -39,6 +41,7 @@ export const CreateJournalEntryProvider = ({ children }: WithChildren) => {
   } = useForm<JournalEntryFormData>({
     defaultValues: initialState,
   });
+
   const { isOpen, closeModal, openModal } = useModal();
   const { loading, startLoading, stopLoading } = useLoading();
 
@@ -50,6 +53,19 @@ export const CreateJournalEntryProvider = ({ children }: WithChildren) => {
       resetField("rebateAmount");
       resetField("rebateDescription");
     }
+  };
+
+  const calculateEvenRebate = () => {
+    const currentAmount = getValues("amount");
+
+    const value = currency(currentAmount, {
+      symbol: "R$ ",
+      decimal: ",",
+      separator: ".",
+    })
+      .divide(2)
+      .format();
+    setValue("rebateAmount", value, { shouldDirty: true });
   };
 
   const handleCreateJournalEntry = () => {
@@ -86,11 +102,14 @@ export const CreateJournalEntryProvider = ({ children }: WithChildren) => {
       start: startLoading,
       stop: stopLoading,
     },
+    rebate: {
+      toggle: toggleRebate,
+      even: calculateEvenRebate,
+    },
     register,
     control,
     watch,
     handleSubmit: handleSubmit(handleCreateJournalEntry),
-    toggleRebate,
     setValue,
   };
 

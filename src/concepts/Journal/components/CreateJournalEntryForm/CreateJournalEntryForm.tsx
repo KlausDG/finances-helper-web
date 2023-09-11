@@ -16,7 +16,7 @@ import { NumericFormat } from "react-number-format";
 
 export const CreateJournalEntryForm = () => {
   const categories = useSelector(categoriesSelector);
-  const { register, control, watch, handleSubmit, toggleRebate } =
+  const { register, control, watch, handleSubmit, rebate } =
     useCreateJournalEntry();
 
   return (
@@ -40,7 +40,6 @@ export const CreateJournalEntryForm = () => {
                 decimalSeparator=","
                 fixedDecimalScale
                 thousandSeparator="."
-                value=""
                 customInput={Input}
               />
             )}
@@ -87,34 +86,43 @@ export const CreateJournalEntryForm = () => {
         <Switch
           id="rebate"
           {...register("hasRebate", {
-            onChange: toggleRebate,
+            onChange: rebate.toggle,
           })}
         />
       </FormControl>
       {watch("hasRebate") && (
         <div className="p-4 grid gap-4 bg-green-600 rounded-lg">
-          <FormControl>
-            <FormLabel color="gray.100">Valor</FormLabel>
-            <Controller
-              control={control}
-              name="rebateAmount"
-              render={({ field }) => (
-                <NumericFormat
-                  {...field}
-                  allowNegative={false}
-                  prefix="R$ "
-                  decimalScale={2}
-                  decimalSeparator=","
-                  fixedDecimalScale
-                  thousandSeparator="."
-                  value=""
-                  customInput={Input}
-                  size="sm"
-                  bg="gray.100"
-                />
-              )}
-            />
-          </FormControl>
+          <div className="flex items-end gap-2">
+            <FormControl>
+              <FormLabel color="gray.100">Valor</FormLabel>
+              <Controller
+                control={control}
+                name="rebateAmount"
+                render={({ field }) => (
+                  <NumericFormat
+                    {...field}
+                    allowNegative={false}
+                    prefix="R$ "
+                    decimalScale={2}
+                    decimalSeparator=","
+                    fixedDecimalScale
+                    thousandSeparator="."
+                    customInput={Input}
+                    size="sm"
+                    bg="gray.100"
+                  />
+                )}
+              />
+            </FormControl>
+            <Button
+              colorScheme="gray"
+              size="sm"
+              onClick={rebate.even}
+              isLoading={false}
+            >
+              50%
+            </Button>
+          </div>
           <FormControl>
             <FormLabel color="gray.100">Descrição</FormLabel>
             <Input {...register("rebateDescription")} size="sm" bg="gray.100" />
