@@ -31,8 +31,10 @@ export const JournalEntryRow = ({ journalEntry }: JournalEntryRowProps) => {
           <Text>R$ {formatCurrency(journalEntry.total)}</Text>
         </div>
       </PopoverTrigger>
+
       <PopoverContent>
         <div className="grid gap-2 p-4">
+          <Text>{journalEntry.comment}</Text>
           <div className="flex justify-between">
             <Text>Valor:</Text>
             <Text>R$ {formatCurrency(journalEntry.amount)}</Text>
@@ -45,6 +47,7 @@ export const JournalEntryRow = ({ journalEntry }: JournalEntryRowProps) => {
             <Text>Total:</Text>
             <Text>R$ {formatCurrency(journalEntry.total)}</Text>
           </div>
+          <Text>Motivo: {rebate.description}</Text>
         </div>
       </PopoverContent>
     </Popover>
