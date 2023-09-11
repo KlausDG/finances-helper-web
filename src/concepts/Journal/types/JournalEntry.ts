@@ -18,7 +18,7 @@ export type Rebate = {
   description: string;
 };
 
-export type JournalEntry = Omit<JournalEntrySubmitData, "date"> & {
+export type JournalEntry = Required<Omit<JournalEntrySubmitData, "date">> & {
   id: string;
   date: Timestamp;
   createdAt: FieldValue;
