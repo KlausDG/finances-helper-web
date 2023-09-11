@@ -1,22 +1,8 @@
 import { Circle, Icon } from "@/components";
 import { Category } from "@/concepts/Categories/types";
 import { JournalEntry } from "@/concepts/Journal";
-import { formatFirebaseTimestampToBrazilianDate } from "@/utils";
-import { formatCurrency } from "@brazilian-utils/brazilian-utils";
-import {
-  Card,
-  CardHeader,
-  CardBody,
-  TableContainer,
-  Table,
-  Thead,
-  Tr,
-  Th,
-  Tbody,
-  Td,
-  Text,
-} from "@chakra-ui/react";
-import { Timestamp } from "firebase/firestore";
+import { Card, CardHeader, CardBody, Text } from "@chakra-ui/react";
+import { ReportTable } from "../ReportTable";
 
 type ReportCardProps = {
   report: {
@@ -39,30 +25,7 @@ export const ReportCard = ({ report }: ReportCardProps) => {
         </div>
       </CardHeader>
       <CardBody>
-        <TableContainer>
-          <Table size="sm">
-            <Thead>
-              <Tr>
-                <Th>Data</Th>
-                <Th>Descrição</Th>
-                <Th isNumeric>Valor</Th>
-              </Tr>
-            </Thead>
-            <Tbody>
-              {report.entries.map((entry) => (
-                <Tr>
-                  <Td>
-                    {formatFirebaseTimestampToBrazilianDate(
-                      entry.date as Timestamp
-                    )}
-                  </Td>
-                  <Td>{entry.description}</Td>
-                  <Td isNumeric>R$ {formatCurrency(entry.total)}</Td>
-                </Tr>
-              ))}
-            </Tbody>
-          </Table>
-        </TableContainer>
+        <ReportTable reportEntries={report.entries} />
       </CardBody>
     </Card>
   );

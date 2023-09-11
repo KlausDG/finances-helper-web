@@ -1,6 +1,12 @@
 import { db } from "@/services/firebase";
 import { AnyAction } from "@reduxjs/toolkit";
-import { query, collection, where, onSnapshot } from "firebase/firestore";
+import {
+  query,
+  collection,
+  where,
+  onSnapshot,
+  orderBy,
+} from "firebase/firestore";
 import { Dispatch } from "react";
 import { setJournalEntries } from "../../store";
 import { journalCollection } from "../collection";
@@ -15,7 +21,8 @@ export const getJournalEntriesSnapshot = (
     collection(db, journalCollection),
     where("userId", "==", userId),
     where("referenceMonth", "==", date.month),
-    where("referenceYear", "==", date.year)
+    where("referenceYear", "==", date.year),
+    orderBy("createdAt")
   );
 
   return onSnapshot(q, (querySnapshot) => {
