@@ -3,7 +3,7 @@ import { Card, CardBody, CardHeader } from "@chakra-ui/react";
 import {
   CardHeaderContent,
   CreateJournalEntryModal,
-  JournalEntryRow,
+  JournalEntryTable,
   journalSelector,
 } from "@/concepts/Journal";
 import { useCreateJournalEntry } from "@/concepts/Journal/providers";
@@ -16,19 +16,12 @@ export const JournalPage = () => {
 
   return (
     <div>
-      <Card className="w-[800px] m-auto">
+      <Card className="w-[1200px] m-auto">
         <CardHeader className="grid grid-cols-3">
           <CardHeaderContent currentDate={selectedDate} modal={modal} />
         </CardHeader>
         <CardBody className="grid gap-2">
-          {journal.map((journalEntry) => {
-            return (
-              <JournalEntryRow
-                journalEntry={journalEntry}
-                key={journalEntry.id}
-              />
-            );
-          })}
+          <JournalEntryTable journal={journal} />
         </CardBody>
       </Card>
       <CreateJournalEntryModal />
