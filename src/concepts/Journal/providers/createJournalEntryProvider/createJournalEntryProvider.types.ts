@@ -11,10 +11,13 @@ type CreateJournalEntryContextReturn = {
     open: () => void;
     close: () => void;
   };
+  rebate: {
+    toggle: () => void;
+    even: () => void;
+  };
   register: UseFormRegister<JournalEntryFormData>;
   control: Control<JournalEntryFormData, unknown>;
   watch: UseFormWatch<JournalEntryFormData>;
-  toggleRebate: () => void;
   handleSubmit: (
     e?: React.BaseSyntheticEvent<object, unknown, unknown> | undefined
   ) => Promise<void>;

@@ -17,6 +17,7 @@
     "@emotion/styled": "^11.11.0",
     "@hookform/resolvers": "^3.2.0",
     "@reduxjs/toolkit": "^1.9.5",
+    "currency.js": "^2.0.4",
     "dotenv": "^16.3.1",
     "firebase": "^10.1.0",
     "framer-motion": "^10.15.0",
