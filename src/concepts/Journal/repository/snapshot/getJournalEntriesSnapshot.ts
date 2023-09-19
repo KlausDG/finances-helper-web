@@ -22,7 +22,7 @@ export const getJournalEntriesSnapshot = (
     where("userId", "==", userId),
     where("referenceMonth", "==", date.month),
     where("referenceYear", "==", date.year),
-    orderBy("date", "asc")
+    orderBy("date", "desc")
   );
 
   return onSnapshot(q, (querySnapshot) => {
