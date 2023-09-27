@@ -12,3 +12,11 @@ export type WalletProps = {
 };
 
 export type WalletsState = Array<Wallet>;
+
+export type CurrentWalletsState = Array<CurrentWalletsItem>;
+
+export type CurrentWalletsItem = Wallet & {
+  totalValue: number;
+  currentValue: number;
+  currentUsedPercentage: string;
+};

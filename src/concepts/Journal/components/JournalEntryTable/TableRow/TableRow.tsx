@@ -1,5 +1,6 @@
 import { Circle, Icon } from "@/components";
 import { JournalEntry } from "@/concepts/Journal";
+import { getCurrentWalletPercentage } from "@/concepts/Wallets";
 import { formatFirebaseTimestampToBrazilianDate } from "@/utils";
 import { formatCurrency } from "@brazilian-utils/brazilian-utils";
 import {
@@ -47,7 +48,10 @@ export const TableRow = ({ journalEntry }: TableRowProps) => {
             <Text>{category.wallet?.name}</Text>
           </Td>
           <Td isNumeric>
-            <Text>R$ {formatCurrency(journalEntry.total)}</Text>
+            <Text>
+              R$ {formatCurrency(journalEntry.total)} (
+              {getCurrentWalletPercentage(journalEntry.total, 100)}%)
+            </Text>
           </Td>
         </Tr>
       </PopoverTrigger>
