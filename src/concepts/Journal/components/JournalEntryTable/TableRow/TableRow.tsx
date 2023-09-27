@@ -1,6 +1,9 @@
 import { Circle, Icon } from "@/components";
 import { JournalEntry } from "@/concepts/Journal";
-import { getCurrentWalletPercentage } from "@/concepts/Wallets";
+import {
+  currentWalletsDataSelector,
+  getCurrentWalletPercentage,
+} from "@/concepts/Wallets";
 import { formatFirebaseTimestampToBrazilianDate } from "@/utils";
 import { formatCurrency } from "@brazilian-utils/brazilian-utils";
 import {
@@ -12,6 +15,7 @@ import {
   PopoverContent,
 } from "@chakra-ui/react";
 import { Timestamp } from "firebase/firestore";
+import { useSelector } from "react-redux";
 
 type TableRowProps = {
   journalEntry: JournalEntry;
@@ -19,6 +23,18 @@ type TableRowProps = {
 
 export const TableRow = ({ journalEntry }: TableRowProps) => {
   const { category, rebate } = journalEntry;
+
+  const currentWalletsData = useSelector(currentWalletsDataSelector);
+
+  const findWalletDataByWalletId = (id: string) => {
+    return currentWalletsData.find((walletData) => walletData.id === id);
+  };
+
+  const fetchWalletTotalValue = (id: string) => {
+    const walletData = findWalletDataByWalletId(id);
+
+    return walletData?.totalValue ?? 0;
+  };
 
   return (
     <Popover trigger="hover">
@@ -50,7 +66,11 @@ export const TableRow = ({ journalEntry }: TableRowProps) => {
           <Td isNumeric>
             <Text>
               R$ {formatCurrency(journalEntry.total)} (
-              {getCurrentWalletPercentage(journalEntry.total, 100)}%)
+              {getCurrentWalletPercentage(
+                journalEntry.total,
+                fetchWalletTotalValue(journalEntry.category.wallet.id)
+              )}
+              %)
             </Text>
           </Td>
         </Tr>

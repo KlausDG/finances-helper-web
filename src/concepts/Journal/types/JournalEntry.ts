@@ -33,6 +33,6 @@ export type JournalEntrySubmitData = Omit<
   "amount" | "categoryId" | "hasRebate" | "rebateAmount" | "rebateDescription"
 > & {
   amount: number;
-  category?: Category;
+  category: Category;
   rebate: Rebate;
 };
