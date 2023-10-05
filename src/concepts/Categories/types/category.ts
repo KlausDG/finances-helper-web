@@ -5,7 +5,7 @@ export type Category = CategorySubmitData & {
 };
 
 export type CategorySubmitData = Omit<CategoryFormData, "walletId"> & {
-  wallet?: Wallet;
+  wallet: Wallet;
 };
 
 export type CategoryFormData = {

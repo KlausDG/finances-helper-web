@@ -12,10 +12,18 @@ import {
   setAuthenticatedUser,
 } from "@/concepts/Auth";
 import { createAccount, getAccount } from "@/concepts/Account";
-import { getWalletsSnapshot } from "@/concepts/Wallets";
+import {
+  getCurrentWalletPercentage,
+  getSalaryAmountByWalletPercentage,
+  getWalletsSnapshot,
+  setCurrentWalletsData,
+  sortWallets,
+  sumEntriesByWalletName,
+  walletsSelector,
+} from "@/concepts/Wallets";
 import { getCategoriesSnapshot } from "@/concepts/Categories";
-import { getJournalEntriesSnapshot } from "@/concepts/Journal";
-import { getSalarySnapshot } from "@/concepts/Salary";
+import { getJournalEntriesSnapshot, journalSelector } from "@/concepts/Journal";
+import { getSalarySnapshot, salarySelector } from "@/concepts/Salary";
 import { Router } from "@/routes";
 import { useLoading } from "@/providers";
 import { getMonthPtBR, getYear } from "@/utils";
@@ -25,6 +33,9 @@ const App = () => {
   const { loading, startLoading, stopLoading } = useLoading();
   const { authCheckCompleted, user } = useSelector(authSelector);
   const selectedDate = useSelector(selectedDateSelector);
+  const wallets = useSelector(walletsSelector);
+  const salary = useSelector(salarySelector);
+  const journalEntries = useSelector(journalSelector);
 
   const dispatch = useDispatch();
 
@@ -122,6 +133,32 @@ const App = () => {
     }
     // eslint-disable-next-line
   }, [user]);
+
+  useEffect(() => {
+    const sortedWallets = sortWallets(wallets, "percentage");
+
+    const formattedWalletsArray = sortedWallets.map((wallet) => {
+      const totalValue = getSalaryAmountByWalletPercentage(
+        salary.amount,
+        wallet.percentage
+      );
+
+      const currentValue = sumEntriesByWalletName(wallet.name, journalEntries);
+      const currentUsedPercentage = getCurrentWalletPercentage(
+        currentValue,
+        totalValue
+      );
+
+      return {
+        ...wallet,
+        totalValue,
+        currentValue,
+        currentUsedPercentage: `${currentUsedPercentage} %`,
+      };
+    });
+
+    dispatch(setCurrentWalletsData(formattedWalletsArray));
+  }, [dispatch, journalEntries, salary.amount, wallets]);
 
   if (!authCheckCompleted || loading) {
     return <Loading />;

@@ -1,12 +1,9 @@
-import { JournalEntry, journalSelector } from "@/concepts/Journal";
+import { PDFDownloadLink, PDFViewer } from "@react-pdf/renderer";
 import { useSelector } from "react-redux";
-import { Category } from "@/concepts/Categories/types";
-import { ReportCard } from "@/concepts/Reports";
-
-type CategoryEntries = Array<{
-  category: Category;
-  entries: Array<JournalEntry>;
-}>;
+import { journalSelector } from "@/concepts/Journal";
+import { PDF, ReportCard } from "@/concepts/Reports";
+import { ReportData } from "@/concepts/Reports/types";
+import { Button } from "@chakra-ui/react";
 
 export const ReportsPage = () => {
   const journal = useSelector(journalSelector);
@@ -28,13 +25,26 @@ export const ReportsPage = () => {
     }
 
     return acc;
-  }, [] as CategoryEntries);
+  }, [] as Array<ReportData>);
 
   return (
-    <div className="grid grid-cols-2 gap-4">
-      {categoryEntriesArray.map((categoryEntry, index) => {
-        return <ReportCard report={categoryEntry} key={index} />;
-      })}
+    <div>
+      <div className="grid grid-cols-2 gap-4">
+        {categoryEntriesArray.map((categoryEntry, index) => {
+          return <ReportCard report={categoryEntry} key={index} />;
+        })}
+      </div>
+      <Button colorScheme="green">
+        <PDFDownloadLink
+          document={<PDF reportEntries={categoryEntriesArray} />}
+          fileName="teste"
+        >
+          Download
+        </PDFDownloadLink>
+      </Button>
+      <PDFViewer>
+        <PDF reportEntries={categoryEntriesArray} />
+      </PDFViewer>
     </div>
   );
 };

@@ -7,6 +7,7 @@ import categoriesSlice from "./concepts/Categories/store/categoriesSlice";
 import salarySlice from "./concepts/Salary/store/salarySlice";
 import journalSlice from "./concepts/Journal/store/journalSlice";
 import selectedDateSlice from "./store/selectedDate";
+import currentWalletsDataSlice from "./concepts/Wallets/store/currentWalletsDataSlice";
 
 export const store = configureStore({
   reducer: {
@@ -18,6 +19,7 @@ export const store = configureStore({
     wallets: walletsReducer,
     journal: journalSlice,
     selectedDate: selectedDateSlice,
+    currentWalletsData: currentWalletsDataSlice,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

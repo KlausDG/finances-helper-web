@@ -1,18 +1,10 @@
 import { Circle, Icon } from "@/components";
-import { Category } from "@/concepts/Categories/types";
-import { JournalEntry } from "@/concepts/Journal";
 import { Card, CardHeader, CardBody, Text, CardFooter } from "@chakra-ui/react";
 import { ReportTable } from "../ReportTable";
 import { ReportTotalTable } from "../ReportTotalTable";
+import { Report } from "../../types";
 
-type ReportCardProps = {
-  report: {
-    category: Category;
-    entries: Array<JournalEntry>;
-  };
-};
-
-export const ReportCard = ({ report }: ReportCardProps) => {
+export const ReportCard = ({ report }: Report) => {
   const entriesTotalSum = report.entries.reduce((acc, entry) => {
     acc += entry.total;
     return acc;
